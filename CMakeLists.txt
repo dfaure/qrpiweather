@@ -1,0 +1,40 @@
+cmake_minimum_required(VERSION 2.8.12)
+project(qmeteofrance)
+find_package(Qt5 CONFIG REQUIRED Core Gui Quick Network Test)
+
+find_package(ECM 1.7.0 CONFIG REQUIRED)
+set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${CMAKE_MODULE_PATH})
+find_package(KF5 REQUIRED COMPONENTS UnitConversion)
+
+set(CMAKE_AUTOMOC true)
+
+include_directories(${CMAKE_CURRENT_BINARY_DIR})
+
+# Shared code between client and autotest
+set(sharedfiles_SRCS
+   dataprovider.cpp
+   filedataprovider.cpp
+   httpdataprovider.cpp
+   infoclimatparser.cpp
+)
+add_library(libqmeteofrance STATIC ${sharedfiles_SRCS})
+target_link_libraries(libqmeteofrance
+   Qt5::Core
+   Qt5::Network
+   KF5::UnitConversion
+)
+
+add_subdirectory(autotests)
+
+set(qmeteofrance_SRCS
+   main.cpp)
+
+add_executable(qmeteofrance ${qmeteofrance_SRCS})
+target_link_libraries(qmeteofrance
+   libqmeteofrance
+   Qt5::Core
+   Qt5::Gui
+   Qt5::Network
+)
+
+install(TARGETS qmeteofrance RUNTIME DESTINATION bin)
