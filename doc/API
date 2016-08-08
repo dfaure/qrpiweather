@@ -1,6 +1,9 @@
 http://www.infoclimat.fr/api-previsions-meteo.html?id=2988507&cntry=FR
 
+http://www.infoclimat.fr/previsions-meteo/details/2970253/vedene.html
+
 wget 'http://www.infoclimat.fr/public-api/gfs/json?_ll=43.9743,4.9031&_auth=BhxRRlYoUHIEKQQzUiRVfFM7VWAIflB3BHgEZ186XiMHbANiVTVRN1A%2BAH0FKlZgWHVXNAw3UGAFblIqCnhePwZsUT1WPVA3BGsEYVJ9VX5TfVU0CChQdwRvBGtfLF48B2wDYFUoUTJQOABiBStWY1hsVzEMLFB3BWdSMQpgXj0GZVE9VjBQNQRrBGNSfVV%2BU2VVMgg%2BUD4ENQQyXzZeNAdtA2NVZVExUGsAawUrVmZYbFc0DDRQaAVgUjMKZl4iBnpRTFZGUC8EKwQkUjdVJ1N9VWAIaVA8&_c=54e0919e3cb6c5e964bf31c7c759a70b' -O rawjson
+
 
 json_pp -t dumper < rawjson > json.txt
 

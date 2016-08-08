@@ -36,13 +36,14 @@ HttpDataProvider::HttpDataProvider(const QString &cacheFile)
 
 HttpDataProvider::~HttpDataProvider()
 {
+    qDebug() << "dtor HDP";
 }
 
 void HttpDataProvider::ensureDataAvailable()
 {
-    std::cerr << "Downloading library information, please wait..." << std::endl;
+    std::cerr << "Downloading weather data, please wait..." << std::endl;
     // Vedene is harcoded into the latitude/longitude
-    QUrl url("http://www.infoclimat.fr/public-api/gfs/json?_ll=43.9743,4.9031&_auth=BhxRRlYoUHIEKQQzUiRVfFM7VWAIflB3BHgEZ186XiMHbANiVTVRN1A%2BAH0FKlZgWHVXNAw3UGAFblIqCnhePwZsUT1WPVA3BGsEYVJ9VX5TfVU0CChQdwRvBGtfLF48B2wDYFUoUTJQOABiBStWY1hsVzEMLFB3BWdSMQpgXj0GZVE9VjBQNQRrBGNSfVV%2BU2VVMgg%2BUD4ENQQyXzZeNAdtA2NVZVExUGsAawUrVmZYbFc0DDRQaAVgUjMKZl4iBnpRTFZGUC8EKwQkUjdVJ1N9VWAIaVA8&_c=54e0919e3cb6c5e964bf31c7c759a70b");
+    QUrl url("http://www.infoclimat.fr/public-api/gfs/json?_ll=43.973595,4.917150&_auth=BhxRRlYoUHIEKQQzUiRVfFM7VWAIflB3BHgEZ186XiMHbANiVTVRN1A%2BAH0FKlZgWHVXNAw3UGAFblIqCnhePwZsUT1WPVA3BGsEYVJ9VX5TfVU0CChQdwRvBGtfLF48B2wDYFUoUTJQOABiBStWY1hsVzEMLFB3BWdSMQpgXj0GZVE9VjBQNQRrBGNSfVV%2BU2VVMgg%2BUD4ENQQyXzZeNAdtA2NVZVExUGsAawUrVmZYbFc0DDRQaAVgUjMKZl4iBnpRTFZGUC8EKwQkUjdVJ1N9VWAIaVA8&_c=54e0919e3cb6c5e964bf31c7c759a70b");
     QNetworkRequest request(url);
     request.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
     /*QNetworkReply* reply =*/ m_qnam->get(request);

@@ -7,6 +7,9 @@ set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${CMAKE_MODULE_PATH})
 find_package(KF5 REQUIRED COMPONENTS UnitConversion)
 
 set(CMAKE_AUTOMOC true)
+include(KDEInstallDirs)
+include(KDECompilerSettings NO_POLICY_SCOPE)
+include(KDECMakeSettings)
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
@@ -16,6 +19,8 @@ set(sharedfiles_SRCS
    filedataprovider.cpp
    httpdataprovider.cpp
    infoclimatparser.cpp
+   weatherdata.cpp
+   weathermodel.cpp
 )
 add_library(libqmeteofrance STATIC ${sharedfiles_SRCS})
 target_link_libraries(libqmeteofrance

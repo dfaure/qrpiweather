@@ -48,7 +48,9 @@ void TestFileData::parserShouldFetchDatesAndData()
     QString output;
     QTextStream stream(&output);
     InfoClimatParser parser(stream);
-    QVERIFY(parser.parse(doc));
+    QVector<WeatherData> wdlist = parser.parse(doc);
+    QCOMPARE(wdlist.count(), 64);
+    QCOMPARE(wdlist.last().toString(), QStringLiteral("2016-08-12 08:00:00.000 CEST, temp=14, wind=(31.5, 58.3, 355), rain=0"));
     QVERIFY2(output.isEmpty(), qPrintable(output));
 }
 

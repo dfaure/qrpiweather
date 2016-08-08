@@ -21,24 +21,18 @@
 #ifndef INFOCLIMATPARSER_H
 #define INFOCLIMATPARSER_H
 
-#include <QObject>
-#include <QUrl>
+#include "weatherdata.h"
 
 class QTextStream;
 class QJsonDocument;
-class QNetworkReply;
-class QNetworkAccessManager;
-class QFile;
 
-class InfoClimatParser : public QObject
+class InfoClimatParser
 {
-    Q_OBJECT
 public:
     InfoClimatParser(QTextStream &errorStream);
     ~InfoClimatParser();
 
-public Q_SLOTS:
-    bool parse(const QJsonDocument &doc);
+    QVector<WeatherData> parse(const QJsonDocument &doc);
 
 private:
     QTextStream &m_errorStream;

@@ -1,13 +1,13 @@
 include_directories(.. ${CMAKE_CURRENT_BINARY_DIR})
+include(ECMAddTests)
 
-add_executable(filedatatest
+ecm_add_tests(
     filedatatest.cpp
-)
-target_link_libraries(filedatatest
+    weatherdatatest.cpp
+LINK_LIBRARIES
     libqmeteofrance
     Qt5::Core
     Qt5::Network
     Qt5::Test
 )
-add_test(NAME filedatatest COMMAND filedatatest)
 

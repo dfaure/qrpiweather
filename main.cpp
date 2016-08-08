@@ -18,11 +18,15 @@
  *  Boston, MA 02110-1301, USA.
  */
 
+#include "weathermodel.h"
+
 #include <QGuiApplication>
 
 int main(int argc, char **argv)
 {
     QGuiApplication app(argc, argv);
 
-    return 0;
+    WeatherModel model;
+
+    return app.exec();
 }
