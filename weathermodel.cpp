@@ -1,6 +1,7 @@
 #include "weathermodel.h"
 #include "infoclimatparser.h"
 #include "wettercomparser.h"
+#include "openweathermapparser.h"
 
 #include <QTextStream>
 #include <QDebug>
@@ -14,7 +15,7 @@ WeatherModel::WeatherModel(QObject *parent)
     : QAbstractTableModel(parent),
       m_parser(Q_NULLPTR)
 {
-    m_backend = WetterCom;
+    m_backend = OpenWeatherMap;
     setBackend(m_backend);
 }
 
@@ -101,6 +102,11 @@ void WeatherModel::toggleBackend()
     setBackend(m_backend);
 }
 
+QString WeatherModel::backendName() const
+{
+    return m_parser->backendName();
+}
+
 void WeatherModel::slotDataAvailable(const QByteArray &data)
 {
     qDebug();
@@ -134,7 +140,11 @@ void WeatherModel::setBackend(WeatherModel::Backend backend)
     case WetterCom:
         m_parser = new WetterComParser;
         break;
+    case OpenWeatherMap:
+        m_parser = new OpenWeatherMapParser;
+        break;
     }
 
+    emit backendNameChanged();
     fetchData();
 }

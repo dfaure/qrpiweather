@@ -18,8 +18,8 @@
  *  Boston, MA 02110-1301, USA.
  */
 
-#ifndef INFOCLIMATPARSER_H
-#define INFOCLIMATPARSER_H
+#ifndef OPENWEATHERMAPPARSER_H
+#define OPENWEATHERMAPPARSER_H
 
 #include "weatherparserbase.h"
 
@@ -28,11 +28,11 @@ class QJsonDocument;
 /**
  * Works, but nebulosity is missing, and the data doesn't seem very accurate....
  */
-class InfoClimatParser : public WeatherParserBase
+class OpenWeatherMapParser : public WeatherParserBase
 {
 public:
-    InfoClimatParser();
-    ~InfoClimatParser();
+    OpenWeatherMapParser();
+    ~OpenWeatherMapParser();
 
     QUrl url() const Q_DECL_OVERRIDE;
     QString cacheFileName() const Q_DECL_OVERRIDE;

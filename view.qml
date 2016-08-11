@@ -74,4 +74,9 @@ ListView {
             }
         }
     }
+
+    Text {
+        anchors { bottom: parent.bottom; right: parent.right }
+        text: myModel.backendName;
+    }
 }

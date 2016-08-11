@@ -50,13 +50,17 @@ void HttpDataProvider::ensureDataAvailable()
 
 void HttpDataProvider::slotFinished(QNetworkReply *reply)
 {
-    QByteArray data = reply->readAll();
-    reply->deleteLater();
-    // Write out cache
-    QDir().mkpath(QFileInfo(m_cacheFile).absolutePath());
-    QFile file(m_cacheFile);
-    if (file.open(QIODevice::WriteOnly)) {
-        file.write(data);
+    const QByteArray data = reply->readAll();
+    if (reply->error() == QNetworkReply::NoError) {
+        // Write out cache
+        QDir().mkpath(QFileInfo(m_cacheFile).absolutePath());
+        QFile file(m_cacheFile);
+        if (file.open(QIODevice::WriteOnly)) {
+            file.write(data);
+        }
+    } else {
+        qWarning() << reply->errorString();
     }
     emit dataAvailable(data);
+    reply->deleteLater();
 }

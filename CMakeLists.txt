@@ -22,6 +22,7 @@ set(sharedfiles_SRCS
    filedataprovider.cpp
    httpdataprovider.cpp
    infoclimatparser.cpp
+   openweathermapparser.cpp
    weatherparserbase.cpp
    weatherdata.cpp
    weathermodel.cpp

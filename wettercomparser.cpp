@@ -43,6 +43,11 @@ QString WetterComParser::cacheFileName() const
     return "wettercom.xml";
 }
 
+QString WetterComParser::backendName() const
+{
+    return "wetter.com";
+}
+
 static QMap<QString, QString> setupCommonIconMappings()
 {
     QMap<QString, QString> conditionIcons;

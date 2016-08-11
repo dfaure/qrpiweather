@@ -13,6 +13,7 @@ public:
 
     virtual QUrl url() const = 0;
     virtual QString cacheFileName() const = 0;
+    virtual QString backendName() const = 0;
     virtual QVector<WeatherData> parse(const QByteArray &data) = 0;
 };
 

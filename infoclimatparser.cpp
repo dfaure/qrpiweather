@@ -47,6 +47,11 @@ QString InfoClimatParser::cacheFileName() const
     return "infoclimat.json";
 }
 
+QString InfoClimatParser::backendName() const
+{
+    return QStringLiteral("infoclimat.fr");
+}
+
 QVector<WeatherData> InfoClimatParser::parse(const QByteArray &data)
 {
     QVector<WeatherData> wdlist;

@@ -66,6 +66,7 @@ int main(int argc, char **argv)
 }
 
 /*
+ * Backends: http://openweathermap.org/appid
  * Vue matin/apres-midi/soir/nuit avec wetter.com
  * Vue jour
  * Historique par mois sur le passe avec courbe temperature, vent, pluie

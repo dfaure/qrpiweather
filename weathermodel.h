@@ -10,6 +10,7 @@ class QIODevice;
 class WeatherModel : public QAbstractTableModel
 {
     Q_OBJECT
+    Q_PROPERTY(QString backendName READ backendName NOTIFY backendNameChanged)
 
 public:
     explicit WeatherModel(QObject *parent = 0);
@@ -34,6 +35,10 @@ public:
     QHash<int, QByteArray> roleNames() const override;
 
     Q_INVOKABLE void toggleBackend();
+    QString backendName() const;
+
+signals:
+    void backendNameChanged();
 
 private slots:
     void slotDataAvailable(const QByteArray &data);
@@ -47,7 +52,8 @@ private:
     enum Backend {
         InfoClimat,
         WetterCom,
-        LastBackend = WetterCom
+        OpenWeatherMap,
+        LastBackend = OpenWeatherMap
     };
     void setBackend(Backend backend);
     Backend m_backend;
