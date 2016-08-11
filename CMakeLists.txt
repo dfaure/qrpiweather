@@ -20,7 +20,7 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
 set(sharedfiles_SRCS
    dataprovider.cpp
    filedataprovider.cpp
-   httpxmldataprovider.cpp
+   httpdataprovider.cpp
    infoclimatparser.cpp
    weatherparserbase.cpp
    weatherdata.cpp

@@ -109,7 +109,7 @@ void WeatherModel::slotError()
 void WeatherModel::fetchData()
 {
     qDebug();
-    m_provider = DataProvider::createProvider(m_parser->url());
+    m_provider = DataProvider::createProvider(m_parser->url(), m_parser->cacheFileName());
     connect(m_provider.data(), &DataProvider::dataAvailable, this, &WeatherModel::slotDataAvailable);
     connect(m_provider.data(), &DataProvider::error, this, &WeatherModel::slotError);
     m_provider->ensureDataAvailable();

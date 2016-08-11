@@ -18,8 +18,8 @@
  *  Boston, MA 02110-1301, USA.
  */
 
-#ifndef HttpXmlDataProvider_H
-#define HttpXmlDataProvider_H
+#ifndef HttpDataProvider_H
+#define HttpDataProvider_H
 
 #include "dataprovider.h"
 #include <QUrl>
@@ -27,12 +27,12 @@
 class QNetworkAccessManager;
 class QNetworkReply;
 
-class HttpXmlDataProvider : public DataProvider
+class HttpDataProvider : public DataProvider
 {
     Q_OBJECT
 public:
-    HttpXmlDataProvider(const QUrl &url, const QString &cacheFile);
-    virtual ~HttpXmlDataProvider();
+    HttpDataProvider(const QUrl &url, const QString &cacheFile);
+    virtual ~HttpDataProvider();
 
     virtual void ensureDataAvailable() Q_DECL_OVERRIDE;
 

@@ -20,31 +20,24 @@
 
 #include "dataprovider.h"
 #include "filedataprovider.h"
-#include "httpxmldataprovider.h"
+#include "httpdataprovider.h"
 
 #include <QStandardPaths>
 #include <QDateTime>
 #include <QFileInfo>
 #include <QDebug>
 
-DataProvider::Ptr DataProvider::createProvider(const QUrl &url)
+DataProvider::Ptr DataProvider::createProvider(const QUrl &url, const QString &cacheFileName)
 {
     // Check cache
-    const QString cache = cacheFile();
-    QFileInfo info(cache);
+    const QString cacheFile = QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + '/' + cacheFileName;
+    QFileInfo info(cacheFile);
     if (info.exists() && info.lastModified().secsTo(QDateTime::currentDateTime()) < 600) {
         qDebug() << "Using cache";
         // Exists and is recent, use that
-        return Ptr(new FileDataProvider(cacheFile()));
+        return Ptr(new FileDataProvider(cacheFile));
     }
 
     // Download file
-    return Ptr(new HttpXmlDataProvider(url, cacheFile()));
-}
-
-QString DataProvider::cacheFile()
-{
-    return QStandardPaths::writableLocation(QStandardPaths::CacheLocation) +
-            //    "/qmeteofrance.json";
-            "/wettercom.xml";
+    return Ptr(new HttpDataProvider(url, cacheFile));
 }

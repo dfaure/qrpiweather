@@ -18,7 +18,7 @@
  *  Boston, MA 02110-1301, USA.
  */
 
-#include "httpxmldataprovider.h"
+#include "httpdataprovider.h"
 #include <QFile>
 #include <QDir>
 #include <QDebug>
@@ -27,28 +27,28 @@
 
 #include <iostream>
 
-HttpXmlDataProvider::HttpXmlDataProvider(const QUrl &url, const QString &cacheFile)
+HttpDataProvider::HttpDataProvider(const QUrl &url, const QString &cacheFile)
     : m_qnam(new QNetworkAccessManager(this)),
       m_cacheFile(cacheFile),
       m_url(url)
 {
 }
 
-HttpXmlDataProvider::~HttpXmlDataProvider()
+HttpDataProvider::~HttpDataProvider()
 {
 }
 
-void HttpXmlDataProvider::ensureDataAvailable()
+void HttpDataProvider::ensureDataAvailable()
 {
     std::cerr << "Downloading weather data, please wait..." << std::endl;
 
     QNetworkRequest request(m_url);
     request.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
     /*QNetworkReply* reply =*/ m_qnam->get(request);
-    connect(m_qnam, &QNetworkAccessManager::finished, this, &HttpXmlDataProvider::slotFinished);
+    connect(m_qnam, &QNetworkAccessManager::finished, this, &HttpDataProvider::slotFinished);
 }
 
-void HttpXmlDataProvider::slotFinished(QNetworkReply *reply)
+void HttpDataProvider::slotFinished(QNetworkReply *reply)
 {
     QByteArray data = reply->readAll();
     reply->deleteLater();
