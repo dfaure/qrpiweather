@@ -25,19 +25,21 @@
 #include <QStandardPaths>
 #include <QDateTime>
 #include <QFileInfo>
+#include <QDebug>
 
 DataProvider::Ptr DataProvider::createProvider()
 {
     // Check cache
     const QString cache = cacheFile();
     QFileInfo info(cache);
-    if (info.exists() && info.lastModified().secsTo(QDateTime::currentDateTime()) < 60) {
+    if (info.exists() && info.lastModified().secsTo(QDateTime::currentDateTime()) < 600) {
+        qDebug() << "Using cache";
         // Exists and is recent, use that
         return Ptr(new FileDataProvider(cacheFile()));
     }
 
     // Download file
-    return Ptr(new HttpDataProvider(cacheFile()));
+    return Ptr(new HttpJsonDataProvider(cacheFile()));
 }
 
 QString DataProvider::cacheFile()

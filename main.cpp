@@ -20,13 +20,49 @@
 
 #include "weathermodel.h"
 
+#define SHOW_TABLEVIEW 0
+
+#if SHOW_TABLEVIEW
+#include <QApplication>
+#include <QTableView>
+#else
 #include <QGuiApplication>
+#endif
+
+#include <QQuickView>
+#include <QQmlEngine>
+#include <QQmlContext>
+#include <QQmlComponent>
 
 int main(int argc, char **argv)
 {
+#if SHOW_TABLEVIEW
+    QApplication app(argc, argv);
+#else
     QGuiApplication app(argc, argv);
+#endif
 
     WeatherModel model;
 
+    QQuickView view;
+
+    QQmlContext *context = view.engine()->rootContext();
+    context->setContextProperty("myModel", &model);
+
+    view.setSource(QUrl("qrc:view.qml"));
+    view.show();
+
+#if SHOW_TABLEVIEW
+    QTableView table;
+    table.setModel(&model);
+    table.show();
+#endif
+
     return app.exec();
 }
+
+/*
+ * Vue matin/apres-midi/soir/nuit avec wetter.com
+ * Vue jour
+ * Historique par mois sur le passe avec courbe temperature, vent, pluie
+*/

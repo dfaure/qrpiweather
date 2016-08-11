@@ -60,14 +60,14 @@ QVector<WeatherData> InfoClimatParser::parse(const QJsonDocument &doc)
         const double kelvin = temperature.value("sol").toDouble();
         KUnitConversion::Value temp(kelvin, KUnitConversion::Kelvin);
         const int celsius = qRound(temp.convertTo(KUnitConversion::Celsius).number());
-        const double average_wind = details.value("vent_moyen").toObject().value("10m").toDouble();
-        const double gust_wind = details.value("vent_rafales").toObject().value("10m").toDouble();
+        const int average_wind = qRound(details.value("vent_moyen").toObject().value("10m").toDouble());
+        const int gust_wind = qRound(details.value("vent_rafales").toObject().value("10m").toDouble());
         const int wind_direction = details.value("vent_direction").toObject().value("10m").toInt();
         const double mm_rain = details.value("pluie").toDouble();
         WeatherData wd;
         wd.setTemperatureWindRain(dateTime, celsius, average_wind, gust_wind, wind_direction, mm_rain);
         wdlist.append(wd);
-        qDebug() << dateTime << celsius << "vent" << average_wind << gust_wind << "direction" << wind_direction << "rain" << mm_rain;
+        //qDebug() << dateTime << celsius << "vent" << average_wind << gust_wind << "direction" << wind_direction << "rain" << mm_rain;
     }
     return wdlist;
 }

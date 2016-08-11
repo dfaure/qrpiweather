@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>view.qml</file>
+        <file>pics/wind_turbine.png</file>
+    </qresource>
+</RCC>

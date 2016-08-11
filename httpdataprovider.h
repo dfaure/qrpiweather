@@ -26,12 +26,12 @@
 class QNetworkAccessManager;
 class QNetworkReply;
 
-class HttpDataProvider : public DataProvider
+class HttpJsonDataProvider : public DataProvider
 {
     Q_OBJECT
 public:
-    HttpDataProvider(const QString &cacheFile);
-    virtual ~HttpDataProvider();
+    HttpJsonDataProvider(const QString &cacheFile);
+    virtual ~HttpJsonDataProvider();
 
     virtual void ensureDataAvailable() Q_DECL_OVERRIDE;
 
