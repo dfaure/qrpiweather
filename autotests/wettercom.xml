@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<city>
+  <city_code>FRXY00507</city_code>
+  <name>VEDENE</name>
+  <post_code></post_code>
+  <credit>
+    <!--In order to use the free weather data from wetter.com you HAVE TO display at least two out of three of the following possibilities: text, link, logo-->
+    <text>Powered by wetter.com</text>
+    <link>http://www.wetter.com</link>
+    <logo>Download at http://www.wetter.com/api/downloads/#logos</logo>
+  </credit>
+  <forecast>
+    <date value="2016-08-11">
+      <dhl>2016-08-11 06:00</dhl>
+      <tx>25</tx>
+      <tn>14</tn>
+      <pc>10</pc>
+      <dhu>2016-08-11 04:00</dhu>
+      <du>1470888000</du>
+      <d>1470895200</d>
+      <time value="06:00">
+        <w>1</w>
+        <tx>19</tx>
+        <pc>10</pc>
+        <tn>14</tn>
+        <p>5</p>
+        <dhl>2016-08-11 06:00</dhl>
+        <dhu>2016-08-11 04:00</dhu>
+        <du>1470888000</du>
+        <d>1470895200</d>
+        <w_txt>leicht bewölkt</w_txt>
+      </time>
+      <time value="11:00">
+        <w>1</w>
+        <tx>25</tx>
+        <pc>10</pc>
+        <tn>15</tn>
+        <p>6</p>
+        <dhl>2016-08-11 11:00</dhl>
+        <dhu>2016-08-11 09:00</dhu>
+        <du>1470906000</du>
+        <d>1470913200</d>
+        <w_txt>leicht bewölkt</w_txt>
+      </time>
+      <time value="17:00">
+        <w>1</w>
+        <tx>25</tx>
+        <pc>10</pc>
+        <tn>20</tn>
+        <p>6</p>
+        <dhl>2016-08-11 17:00</dhl>
+        <dhu>2016-08-11 15:00</dhu>
+        <du>1470927600</du>
+        <d>1470934800</d>
+        <w_txt>leicht bewölkt</w_txt>
+      </time>
+      <time value="23:00">
+        <w>1</w>
+        <tx>22</tx>
+        <pc>10</pc>
+        <tn>16</tn>
+        <p>6</p>
+        <dhl>2016-08-11 23:00</dhl>
+        <dhu>2016-08-11 21:00</dhu>
+        <du>1470949200</du>
+        <d>1470956400</d>
+        <w_txt>leicht bewölkt</w_txt>
+      </time>
+      <p>24</p>
+      <w>1</w>
+      <w_txt>leicht bewölkt</w_txt>
+    </date>
+    <date value="2016-08-12">
+      <dhl>2016-08-12 06:00</dhl>
+      <tx>30</tx>
+      <tn>15</tn>
+      <pc>10</pc>
+      <dhu>2016-08-12 04:00</dhu>
+      <du>1470974400</du>
+      <d>1470981600</d>
+      <time value="06:00">
+        <w>1</w>
+        <tx>23</tx>
+        <pc>10</pc>
+        <tn>15</tn>
+        <p>5</p>
+        <dhl>2016-08-12 06:00</dhl>
+        <dhu>2016-08-12 04:00</dhu>
+        <du>1470974400</du>
+        <d>1470981600</d>
+        <w_txt>leicht bewölkt</w_txt>
+      </time>
+      <time value="11:00">
+        <w>1</w>
+        <tx>30</tx>
+        <pc>10</pc>
+        <tn>15</tn>
+        <p>6</p>
+        <dhl>2016-08-12 11:00</dhl>
+        <dhu>2016-08-12 09:00</dhu>
+        <du>1470992400</du>
+        <d>1470999600</d>
+        <w_txt>leicht bewölkt</w_txt>
+      </time>
+      <time value="17:00">
+        <w>1</w>
+        <tx>30</tx>
+        <pc>10</pc>
+        <tn>22</tn>
+        <p>6</p>
+        <dhl>2016-08-12 17:00</dhl>
+        <dhu>2016-08-12 15:00</dhu>
+        <du>1471014000</du>
+        <d>1471021200</d>
+        <w_txt>leicht bewölkt</w_txt>
+      </time>
+      <time value="23:00">
+        <w>1</w>
+        <tx>27</tx>
+        <pc>10</pc>
+        <tn>18</tn>
+        <p>6</p>
+        <dhl>2016-08-12 23:00</dhl>
+        <dhu>2016-08-12 21:00</dhu>
+        <du>1471035600</du>
+        <d>1471042800</d>
+        <w_txt>leicht bewölkt</w_txt>
+      </time>
+      <p>24</p>
+      <w>1</w>
+      <w_txt>leicht bewölkt</w_txt>
+    </date>
+    <date value="2016-08-13">
+      <dhl>2016-08-13 06:00</dhl>
+      <tx>31</tx>
+      <tn>16</tn>
+      <pc>10</pc>
+      <dhu>2016-08-13 04:00</dhu>
+      <du>1471060800</du>
+      <d>1471068000</d>
+      <time value="06:00">
+        <w>1</w>
+        <tx>24</tx>
+        <pc>10</pc>
+        <tn>16</tn>
+        <p>5</p>
+        <dhl>2016-08-13 06:00</dhl>
+        <dhu>2016-08-13 04:00</dhu>
+        <du>1471060800</du>
+        <d>1471068000</d>
+        <w_txt>leicht bewölkt</w_txt>
+      </time>
+      <time value="11:00">
+        <w>1</w>
+        <tx>31</tx>
+        <pc>10</pc>
+        <tn>17</tn>
+        <p>6</p>
+        <dhl>2016-08-13 11:00</dhl>
+        <dhu>2016-08-13 09:00</dhu>
+        <du>1471078800</du>
+        <d>1471086000</d>
+        <w_txt>leicht bewölkt</w_txt>
+      </time>
+      <time value="17:00">
+        <w>1</w>
+        <tx>31</tx>
+        <pc>10</pc>
+        <tn>21</tn>
+        <p>6</p>
+        <dhl>2016-08-13 17:00</dhl>
+        <dhu>2016-08-13 15:00</dhu>
+        <du>1471100400</du>
+        <d>1471107600</d>
+        <w_txt>leicht bewölkt</w_txt>
+      </time>
+      <time value="23:00">
+        <w>1</w>
+        <tx>26</tx>
+        <pc>10</pc>
+        <tn>18</tn>
+        <p>6</p>
+        <dhl>2016-08-13 23:00</dhl>
+        <dhu>2016-08-13 21:00</dhu>
+        <du>1471122000</du>
+        <d>1471129200</d>
+        <w_txt>leicht bewölkt</w_txt>
+      </time>
+      <p>24</p>
+      <w>1</w>
+      <w_txt>leicht bewölkt</w_txt>
+    </date>
+  </forecast>
+</city>

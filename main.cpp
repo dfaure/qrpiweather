@@ -18,6 +18,7 @@
  *  Boston, MA 02110-1301, USA.
  */
 
+#include "themeimageprovider.h"
 #include "weathermodel.h"
 
 #define SHOW_TABLEVIEW 0
@@ -48,6 +49,9 @@ int main(int argc, char **argv)
 
     QQmlContext *context = view.engine()->rootContext();
     context->setContextProperty("myModel", &model);
+
+    ThemeImageProvider *imageProvider = new ThemeImageProvider;
+    view.engine()->addImageProvider(QLatin1String("fromTheme"), imageProvider);
 
     view.setSource(QUrl("qrc:view.qml"));
     view.show();

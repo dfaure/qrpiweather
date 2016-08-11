@@ -38,7 +38,7 @@ public:
 
 Q_SIGNALS:
     void error();
-    void dataAvailable(const QJsonDocument &doc);
+    void dataAvailable(const QByteArray &data);
 
 protected:
     DataProvider() {}

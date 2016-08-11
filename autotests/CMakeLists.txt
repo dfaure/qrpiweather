@@ -2,7 +2,8 @@ include_directories(.. ${CMAKE_CURRENT_BINARY_DIR})
 include(ECMAddTests)
 
 ecm_add_tests(
-    filedatatest.cpp
+    infoclimatparsertest.cpp
+    wettercomparsertest.cpp
     weatherdatatest.cpp
 LINK_LIBRARIES
     libqmeteofrance

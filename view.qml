@@ -24,8 +24,17 @@ ListView {
                 Text { anchors.horizontalCenter: parent.horizontalCenter
                     font.pixelSize: 24; text: model.dayOfWeek + " " + model.time + "h" }
                 Rectangle { width: parent.width ; height: 10 }
+
+                // Temperature
+                Image { anchors.horizontalCenter: parent.horizontalCenter
+                    width: 100
+                    height: 100
+                    source: "image://fromTheme/" + model.weatherIcon
+                }
                 Text { anchors.horizontalCenter: parent.horizontalCenter
                     font.pixelSize: 24; text: model.temperature + "°C" }
+
+                // Wind
                 Image { anchors.horizontalCenter: parent.horizontalCenter
                     width: 82
                     height: 100

@@ -4,7 +4,7 @@
 #include <QAbstractTableModel>
 #include "dataprovider.h"
 #include "weatherdata.h"
-class QJsonDocument;
+class QIODevice;
 
 class WeatherModel : public QAbstractTableModel
 {
@@ -20,7 +20,8 @@ public:
         AverageWind,
         GustWind,
         WindDirection,
-        Rain
+        Rain,
+        WeatherIcon
     };
 
     // Basic functionality:
@@ -32,7 +33,7 @@ public:
 
 
 private slots:
-    void slotDataAvailable(const QJsonDocument &doc);
+    void slotDataAvailable(const QByteArray &data);
     void slotError();
 
 private:

@@ -18,26 +18,29 @@
  *  Boston, MA 02110-1301, USA.
  */
 
-#include "filedataprovider.h"
-#include <QFile>
-#include <QDebug>
+#ifndef HttpJsonDataProvider_H
+#define HttpJsonDataProvider_H
 
-FileDataProvider::FileDataProvider(const QString &filePath)
-    : m_filePath(filePath)
-{
-}
+#include "dataprovider.h"
 
-void FileDataProvider::ensureDataAvailable()
-{
-    QMetaObject::invokeMethod(this, "loadFile", Qt::QueuedConnection);
-}
+class QNetworkAccessManager;
+class QNetworkReply;
 
-void FileDataProvider::loadFile()
+class HttpJsonDataProvider : public DataProvider
 {
-    QFile file(m_filePath);
-    if (!file.open(QIODevice::ReadOnly)) {
-        emit error();
-        return;
-    }
-    emit dataAvailable(file.readAll());
-}
+    Q_OBJECT
+public:
+    HttpJsonDataProvider(const QString &cacheFile);
+    virtual ~HttpJsonDataProvider();
+
+    virtual void ensureDataAvailable() Q_DECL_OVERRIDE;
+
+private Q_SLOTS:
+    void slotFinished(QNetworkReply *reply);
+
+private:
+    QNetworkAccessManager *m_qnam;
+    QString m_cacheFile;
+};
+
+#endif

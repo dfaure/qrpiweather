@@ -20,14 +20,17 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
 set(sharedfiles_SRCS
    dataprovider.cpp
    filedataprovider.cpp
-   httpdataprovider.cpp
+   httpjsondataprovider.cpp
+   httpxmldataprovider.cpp
    infoclimatparser.cpp
+   wettercomparser.cpp
    weatherdata.cpp
    weathermodel.cpp
 )
 add_library(libqmeteofrance STATIC ${sharedfiles_SRCS})
 target_link_libraries(libqmeteofrance
    Qt5::Core
+   Qt5::Gui     # QIcon
    Qt5::Network
    KF5::UnitConversion
 )
@@ -36,6 +39,7 @@ add_subdirectory(autotests)
 
 set(qmeteofrance_SRCS
    main.cpp
+   themeimageprovider.cpp
    qmeteofrance.qrc)
 
 add_executable(qmeteofrance ${qmeteofrance_SRCS})

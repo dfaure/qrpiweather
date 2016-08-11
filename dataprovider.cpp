@@ -20,7 +20,8 @@
 
 #include "dataprovider.h"
 #include "filedataprovider.h"
-#include "httpdataprovider.h"
+#include "httpjsondataprovider.h"
+#include "httpxmldataprovider.h"
 
 #include <QStandardPaths>
 #include <QDateTime>
@@ -39,10 +40,13 @@ DataProvider::Ptr DataProvider::createProvider()
     }
 
     // Download file
-    return Ptr(new HttpJsonDataProvider(cacheFile()));
+    //return Ptr(new HttpJsonDataProvider(cacheFile()));
+    return Ptr(new HttpXmlDataProvider(cacheFile()));
 }
 
 QString DataProvider::cacheFile()
 {
-    return QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + "/qmeteofrance.json";
+    return QStandardPaths::writableLocation(QStandardPaths::CacheLocation) +
+            //    "/qmeteofrance.json";
+            "/wettercom.xml";
 }

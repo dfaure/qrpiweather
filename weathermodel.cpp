@@ -1,5 +1,6 @@
 #include "weathermodel.h"
 #include "infoclimatparser.h"
+#include "wettercomparser.h"
 
 #include <QTextStream>
 #include <QDebug>
@@ -61,6 +62,8 @@ QVariant WeatherModel::data(const QModelIndex &index, int role) const
         return wd.wind_direction();
     case Rain:
         return wd.mm_rain();
+    case WeatherIcon:
+        return wd.weather_icon();
     default:
         break;
     }
@@ -77,21 +80,36 @@ QHash<int, QByteArray> WeatherModel::roleNames() const
     roles.insert(GustWind, "gustWind");
     roles.insert(WindDirection, "windDirection");
     roles.insert(Rain, "rain");
+    roles.insert(WeatherIcon, "weatherIcon");
     return roles;
 }
 
-void WeatherModel::slotDataAvailable(const QJsonDocument &doc)
+void WeatherModel::slotDataAvailable(const QByteArray &data)
 {
     qDebug();
     QTextStream stream(stdout);
-    QFile dump("dump.json");
+#if 0
+    QJsonParseError jsonError;
+    const QJsonDocument doc = QJsonDocument::fromJson(data, &jsonError);
+    if (doc.isNull()) {
+        qWarning() << "Error parsing JSON document:" << jsonError.errorString() << "at offset" << jsonError.offset;
+        return;
+    }
+
+    /*QFile dump("dump.json");
     if (dump.open(QIODevice::WriteOnly)) {
         dump.write(doc.toJson(QJsonDocument::Indented));
-    }
+    }*/
     InfoClimatParser parser(stream);
     beginResetModel();
     m_data = parser.parse(doc);
     endResetModel();
+#else
+    WetterComParser parser(stream);
+    beginResetModel();
+    m_data = parser.parse(data);
+    endResetModel();
+#endif
     qDebug() << m_data.count() << "data" << rowCount() << "rows";
 }
 

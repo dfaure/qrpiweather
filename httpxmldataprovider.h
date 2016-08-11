@@ -18,20 +18,20 @@
  *  Boston, MA 02110-1301, USA.
  */
 
-#ifndef HttpDataProvider_H
-#define HttpDataProvider_H
+#ifndef HttpXmlDataProvider_H
+#define HttpXmlDataProvider_H
 
 #include "dataprovider.h"
 
 class QNetworkAccessManager;
 class QNetworkReply;
 
-class HttpJsonDataProvider : public DataProvider
+class HttpXmlDataProvider : public DataProvider
 {
     Q_OBJECT
 public:
-    HttpJsonDataProvider(const QString &cacheFile);
-    virtual ~HttpJsonDataProvider();
+    HttpXmlDataProvider(const QString &cacheFile);
+    virtual ~HttpXmlDataProvider();
 
     virtual void ensureDataAvailable() Q_DECL_OVERRIDE;
 

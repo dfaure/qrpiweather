@@ -18,59 +18,65 @@
  *  Boston, MA 02110-1301, USA.
  */
 
-#include "httpdataprovider.h"
+#include "httpxmldataprovider.h"
 #include <QFile>
 #include <QDir>
-#include <QJsonDocument>
 #include <QDebug>
 #include <QNetworkReply>
 #include <QNetworkAccessManager>
 
 #include <iostream>
 
-HttpDataProvider::HttpDataProvider(const QString &cacheFile)
+HttpXmlDataProvider::HttpXmlDataProvider(const QString &cacheFile)
     : m_qnam(new QNetworkAccessManager(this)),
       m_cacheFile(cacheFile)
 {
 }
 
-HttpDataProvider::~HttpDataProvider()
+HttpXmlDataProvider::~HttpXmlDataProvider()
 {
-    qDebug() << "dtor HDP";
 }
 
-void HttpDataProvider::ensureDataAvailable()
+void HttpXmlDataProvider::ensureDataAvailable()
 {
     std::cerr << "Downloading weather data, please wait..." << std::endl;
-    // Vedene is harcoded into the latitude/longitude
-    QUrl url("http://www.infoclimat.fr/public-api/gfs/json?_ll=43.973595,4.917150&_auth=BhxRRlYoUHIEKQQzUiRVfFM7VWAIflB3BHgEZ186XiMHbANiVTVRN1A%2BAH0FKlZgWHVXNAw3UGAFblIqCnhePwZsUT1WPVA3BGsEYVJ9VX5TfVU0CChQdwRvBGtfLF48B2wDYFUoUTJQOABiBStWY1hsVzEMLFB3BWdSMQpgXj0GZVE9VjBQNQRrBGNSfVV%2BU2VVMgg%2BUD4ENQQyXzZeNAdtA2NVZVExUGsAawUrVmZYbFc0DDRQaAVgUjMKZl4iBnpRTFZGUC8EKwQkUjdVJ1N9VWAIaVA8&_c=54e0919e3cb6c5e964bf31c7c759a70b");
+    // Vedene is harcoded into the URL
+
+#if 0
+    // plasma-workspace/dataengines/weather/ions/wetter.com/ion_wettercom.cpp
+
+    // wetter.com API project data
+    #define PROJECTNAME "weatherion"
+    #define SEARCH_URL "http://api.wetter.com/location/index/search/%1/project/" PROJECTNAME "/cs/%2"
+    #define FORECAST_URL "http://api.wetter.com/forecast/weather/city/%1/project/" PROJECTNAME "/cs/%2"
+    #define APIKEY "07025b9a22b4febcf8e8ec3e6f1140e8"
+
+    QCryptographicHash md5(QCryptographicHash::Md5);
+    md5.addData(QString::fromLatin1(PROJECTNAME).toUtf8());
+    md5.addData(QString::fromLatin1(APIKEY).toUtf8());
+    md5.addData(m_place[source].placeCode.toUtf8());
+    const QString encodedKey = QString::fromLatin1(md5.result().toHex());
+
+    const QUrl url(QString::fromLatin1(FORECAST_URL).arg(m_place[source].placeCode, encodedKey));
+#else
+    // Result of the above, fetched from the plasmashell or kio debug output
+    const QUrl url("http://api.wetter.com/forecast/weather/city/FRXY00507/project/weatherion/cs/95292d30da1a503b561ae10a3f90b0be");
+#endif
     QNetworkRequest request(url);
     request.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
     /*QNetworkReply* reply =*/ m_qnam->get(request);
-    connect(m_qnam, &QNetworkAccessManager::finished, this, &HttpDataProvider::slotFinished);
+    connect(m_qnam, &QNetworkAccessManager::finished, this, &HttpXmlDataProvider::slotFinished);
 }
 
-void HttpDataProvider::slotFinished(QNetworkReply *reply)
+void HttpXmlDataProvider::slotFinished(QNetworkReply *reply)
 {
-    const QByteArray data = reply->readAll(); // QJsonDocument can't read from a QIODevice !
+    QByteArray data = reply->readAll();
     reply->deleteLater();
-    if (data.isEmpty()) {
-        qWarning() << "Empty document downloaded";
-        emit error();
-        return;
-    }
-    QJsonParseError jsonError;
-    const QJsonDocument doc = QJsonDocument::fromJson(data, &jsonError);
-    if (doc.isNull()) {
-        qWarning() << "Error parsing JSON document:" << jsonError.errorString() << "at offset" << jsonError.offset;
-        emit error();
-        return;
-    }
     // Write out cache
     QDir().mkpath(QFileInfo(m_cacheFile).absolutePath());
     QFile file(m_cacheFile);
     if (file.open(QIODevice::WriteOnly)) {
         file.write(data);
     }
-    emit dataAvailable(doc);
+    emit dataAvailable(data);
 }
