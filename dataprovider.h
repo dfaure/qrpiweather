@@ -32,7 +32,7 @@ public:
 
     virtual void ensureDataAvailable() = 0;
 
-    static Ptr createProvider();
+    static Ptr createProvider(const QUrl &url);
 
     static QString cacheFile();
 

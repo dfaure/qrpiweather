@@ -4,6 +4,7 @@
 #include <QAbstractTableModel>
 #include "dataprovider.h"
 #include "weatherdata.h"
+class WeatherParserBase;
 class QIODevice;
 
 class WeatherModel : public QAbstractTableModel
@@ -12,6 +13,7 @@ class WeatherModel : public QAbstractTableModel
 
 public:
     explicit WeatherModel(QObject *parent = 0);
+    ~WeatherModel();
 
     enum Roles {
         DayOfWeek = Qt::UserRole + 90,
@@ -41,6 +43,7 @@ private:
 
     QVector<WeatherData> m_data;
 
+    WeatherParserBase *m_parser;
     DataProvider::Ptr m_provider;
 };
 

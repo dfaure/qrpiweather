@@ -27,19 +27,36 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 
-InfoClimatParser::InfoClimatParser(QTextStream &errorStream)
-    : m_errorStream(errorStream)
+InfoClimatParser::InfoClimatParser()
 {
 }
 
 InfoClimatParser::~InfoClimatParser()
 {
-    m_errorStream.flush();
 }
 
-QVector<WeatherData> InfoClimatParser::parse(const QJsonDocument &doc)
+QUrl InfoClimatParser::url() const
+{
+    // Vedene is harcoded into the latitude/longitude
+    QUrl url("http://www.infoclimat.fr/public-api/gfs/json?_ll=43.973595,4.917150&_auth=BhxRRlYoUHIEKQQzUiRVfFM7VWAIflB3BHgEZ186XiMHbANiVTVRN1A%2BAH0FKlZgWHVXNAw3UGAFblIqCnhePwZsUT1WPVA3BGsEYVJ9VX5TfVU0CChQdwRvBGtfLF48B2wDYFUoUTJQOABiBStWY1hsVzEMLFB3BWdSMQpgXj0GZVE9VjBQNQRrBGNSfVV%2BU2VVMgg%2BUD4ENQQyXzZeNAdtA2NVZVExUGsAawUrVmZYbFc0DDRQaAVgUjMKZl4iBnpRTFZGUC8EKwQkUjdVJ1N9VWAIaVA8&_c=54e0919e3cb6c5e964bf31c7c759a70b");
+    return url;
+}
+
+QVector<WeatherData> InfoClimatParser::parse(const QByteArray &data)
 {
     QVector<WeatherData> wdlist;
+    QJsonParseError jsonError;
+    const QJsonDocument doc = QJsonDocument::fromJson(data, &jsonError);
+    if (doc.isNull()) {
+        qWarning() << "Error parsing JSON document:" << jsonError.errorString() << "at offset" << jsonError.offset;
+        return wdlist;
+    }
+
+    /*QFile dump("dump.json");
+    if (dump.open(QIODevice::WriteOnly)) {
+        dump.write(doc.toJson(QJsonDocument::Indented));
+    }*/
+
     const QJsonObject root = doc.object();
     const QStringList keys = root.keys(); // already sorted
     static QString request_state = QStringLiteral("request_state");

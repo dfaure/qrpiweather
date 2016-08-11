@@ -44,17 +44,10 @@ void InfoClimatParserTest::parserShouldFetchDatesAndData()
     QByteArray data;
     fetchData(&data);
 
-    QString output;
-    QTextStream stream(&output);
-    InfoClimatParser parser(stream);
-    QJsonParseError jsonError;
-    const QJsonDocument doc = QJsonDocument::fromJson(data, &jsonError);
-    QVERIFY2(!doc.isNull(), qPrintable("Error parsing JSON document: " + jsonError.errorString() + " at offset " + jsonError.offset));
-
-    QVector<WeatherData> wdlist = parser.parse(doc);
+    InfoClimatParser parser;
+    QVector<WeatherData> wdlist = parser.parse(data);
     QCOMPARE(wdlist.count(), 64);
     QCOMPARE(wdlist.last().toString(), QStringLiteral("2016-08-12 08:00:00.000 CEST, temp=14, wind=(32, 58, 355), rain=0"));
-    QVERIFY2(output.isEmpty(), qPrintable(output));
 }
 
 QTEST_MAIN(InfoClimatParserTest)

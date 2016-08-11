@@ -13,7 +13,15 @@
 WeatherModel::WeatherModel(QObject *parent)
     : QAbstractTableModel(parent)
 {
+    //m_parser = new InfoClimatParser;
+    m_parser = new WetterComParser;
+
     fetchData();
+}
+
+WeatherModel::~WeatherModel()
+{
+    delete m_parser;
 }
 
 int WeatherModel::rowCount(const QModelIndex &parent) const
@@ -87,29 +95,9 @@ QHash<int, QByteArray> WeatherModel::roleNames() const
 void WeatherModel::slotDataAvailable(const QByteArray &data)
 {
     qDebug();
-    QTextStream stream(stdout);
-#if 0
-    QJsonParseError jsonError;
-    const QJsonDocument doc = QJsonDocument::fromJson(data, &jsonError);
-    if (doc.isNull()) {
-        qWarning() << "Error parsing JSON document:" << jsonError.errorString() << "at offset" << jsonError.offset;
-        return;
-    }
-
-    /*QFile dump("dump.json");
-    if (dump.open(QIODevice::WriteOnly)) {
-        dump.write(doc.toJson(QJsonDocument::Indented));
-    }*/
-    InfoClimatParser parser(stream);
     beginResetModel();
-    m_data = parser.parse(doc);
+    m_data = m_parser->parse(data);
     endResetModel();
-#else
-    WetterComParser parser(stream);
-    beginResetModel();
-    m_data = parser.parse(data);
-    endResetModel();
-#endif
     qDebug() << m_data.count() << "data" << rowCount() << "rows";
 }
 
@@ -121,7 +109,7 @@ void WeatherModel::slotError()
 void WeatherModel::fetchData()
 {
     qDebug();
-    m_provider = DataProvider::createProvider();
+    m_provider = DataProvider::createProvider(m_parser->url());
     connect(m_provider.data(), &DataProvider::dataAvailable, this, &WeatherModel::slotDataAvailable);
     connect(m_provider.data(), &DataProvider::error, this, &WeatherModel::slotError);
     m_provider->ensureDataAvailable();

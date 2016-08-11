@@ -27,9 +27,10 @@
 
 #include <iostream>
 
-HttpXmlDataProvider::HttpXmlDataProvider(const QString &cacheFile)
+HttpXmlDataProvider::HttpXmlDataProvider(const QUrl &url, const QString &cacheFile)
     : m_qnam(new QNetworkAccessManager(this)),
-      m_cacheFile(cacheFile)
+      m_cacheFile(cacheFile),
+      m_url(url)
 {
 }
 
@@ -40,29 +41,8 @@ HttpXmlDataProvider::~HttpXmlDataProvider()
 void HttpXmlDataProvider::ensureDataAvailable()
 {
     std::cerr << "Downloading weather data, please wait..." << std::endl;
-    // Vedene is harcoded into the URL
 
-#if 0
-    // plasma-workspace/dataengines/weather/ions/wetter.com/ion_wettercom.cpp
-
-    // wetter.com API project data
-    #define PROJECTNAME "weatherion"
-    #define SEARCH_URL "http://api.wetter.com/location/index/search/%1/project/" PROJECTNAME "/cs/%2"
-    #define FORECAST_URL "http://api.wetter.com/forecast/weather/city/%1/project/" PROJECTNAME "/cs/%2"
-    #define APIKEY "07025b9a22b4febcf8e8ec3e6f1140e8"
-
-    QCryptographicHash md5(QCryptographicHash::Md5);
-    md5.addData(QString::fromLatin1(PROJECTNAME).toUtf8());
-    md5.addData(QString::fromLatin1(APIKEY).toUtf8());
-    md5.addData(m_place[source].placeCode.toUtf8());
-    const QString encodedKey = QString::fromLatin1(md5.result().toHex());
-
-    const QUrl url(QString::fromLatin1(FORECAST_URL).arg(m_place[source].placeCode, encodedKey));
-#else
-    // Result of the above, fetched from the plasmashell or kio debug output
-    const QUrl url("http://api.wetter.com/forecast/weather/city/FRXY00507/project/weatherion/cs/95292d30da1a503b561ae10a3f90b0be");
-#endif
-    QNetworkRequest request(url);
+    QNetworkRequest request(m_url);
     request.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
     /*QNetworkReply* reply =*/ m_qnam->get(request);
     connect(m_qnam, &QNetworkAccessManager::finished, this, &HttpXmlDataProvider::slotFinished);

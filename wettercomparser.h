@@ -1,20 +1,16 @@
 #ifndef WETTERCOMPARSER_H
 #define WETTERCOMPARSER_H
 
-#include "weatherdata.h"
+#include "weatherparserbase.h"
 
-class QTextStream;
-
-class WetterComParser
+class WetterComParser : public WeatherParserBase
 {
 public:
-    WetterComParser(QTextStream &stream);
+    WetterComParser();
     ~WetterComParser();
 
+    QUrl url() const;
     QVector<WeatherData> parse(const QByteArray &data);
-
-private:
-    QTextStream &m_errorStream;
 };
 
 #endif // WETTERCOMPARSER_H

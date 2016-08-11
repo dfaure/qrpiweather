@@ -20,7 +20,6 @@
 
 #include "dataprovider.h"
 #include "filedataprovider.h"
-#include "httpjsondataprovider.h"
 #include "httpxmldataprovider.h"
 
 #include <QStandardPaths>
@@ -28,7 +27,7 @@
 #include <QFileInfo>
 #include <QDebug>
 
-DataProvider::Ptr DataProvider::createProvider()
+DataProvider::Ptr DataProvider::createProvider(const QUrl &url)
 {
     // Check cache
     const QString cache = cacheFile();
@@ -40,8 +39,7 @@ DataProvider::Ptr DataProvider::createProvider()
     }
 
     // Download file
-    //return Ptr(new HttpJsonDataProvider(cacheFile()));
-    return Ptr(new HttpXmlDataProvider(cacheFile()));
+    return Ptr(new HttpXmlDataProvider(url, cacheFile()));
 }
 
 QString DataProvider::cacheFile()

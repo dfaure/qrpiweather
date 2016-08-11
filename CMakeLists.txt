@@ -20,12 +20,12 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
 set(sharedfiles_SRCS
    dataprovider.cpp
    filedataprovider.cpp
-   httpjsondataprovider.cpp
    httpxmldataprovider.cpp
    infoclimatparser.cpp
-   wettercomparser.cpp
+   weatherparserbase.cpp
    weatherdata.cpp
    weathermodel.cpp
+   wettercomparser.cpp
 )
 add_library(libqmeteofrance STATIC ${sharedfiles_SRCS})
 target_link_libraries(libqmeteofrance

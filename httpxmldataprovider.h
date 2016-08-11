@@ -22,6 +22,7 @@
 #define HttpXmlDataProvider_H
 
 #include "dataprovider.h"
+#include <QUrl>
 
 class QNetworkAccessManager;
 class QNetworkReply;
@@ -30,7 +31,7 @@ class HttpXmlDataProvider : public DataProvider
 {
     Q_OBJECT
 public:
-    HttpXmlDataProvider(const QString &cacheFile);
+    HttpXmlDataProvider(const QUrl &url, const QString &cacheFile);
     virtual ~HttpXmlDataProvider();
 
     virtual void ensureDataAvailable() Q_DECL_OVERRIDE;
@@ -41,6 +42,7 @@ private Q_SLOTS:
 private:
     QNetworkAccessManager *m_qnam;
     QString m_cacheFile;
+    QUrl m_url;
 };
 
 #endif
