@@ -11,12 +11,11 @@
 #include <iostream>
 
 WeatherModel::WeatherModel(QObject *parent)
-    : QAbstractTableModel(parent)
+    : QAbstractTableModel(parent),
+      m_parser(Q_NULLPTR)
 {
-    //m_parser = new InfoClimatParser;
-    m_parser = new WetterComParser;
-
-    fetchData();
+    m_backend = WetterCom;
+    setBackend(m_backend);
 }
 
 WeatherModel::~WeatherModel()
@@ -92,6 +91,16 @@ QHash<int, QByteArray> WeatherModel::roleNames() const
     return roles;
 }
 
+void WeatherModel::toggleBackend()
+{
+    if (m_backend == LastBackend) {
+        m_backend = InfoClimat;
+    } else {
+        m_backend = static_cast<Backend>(m_backend + 1);
+    }
+    setBackend(m_backend);
+}
+
 void WeatherModel::slotDataAvailable(const QByteArray &data)
 {
     qDebug();
@@ -113,4 +122,19 @@ void WeatherModel::fetchData()
     connect(m_provider.data(), &DataProvider::dataAvailable, this, &WeatherModel::slotDataAvailable);
     connect(m_provider.data(), &DataProvider::error, this, &WeatherModel::slotError);
     m_provider->ensureDataAvailable();
+}
+
+void WeatherModel::setBackend(WeatherModel::Backend backend)
+{
+    delete m_parser;
+    switch (backend) {
+    case InfoClimat:
+        m_parser = new InfoClimatParser;
+        break;
+    case WetterCom:
+        m_parser = new WetterComParser;
+        break;
+    }
+
+    fetchData();
 }

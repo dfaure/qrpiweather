@@ -33,6 +33,7 @@ public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
     QHash<int, QByteArray> roleNames() const override;
 
+    Q_INVOKABLE void toggleBackend();
 
 private slots:
     void slotDataAvailable(const QByteArray &data);
@@ -42,6 +43,14 @@ private:
     void fetchData();
 
     QVector<WeatherData> m_data;
+
+    enum Backend {
+        InfoClimat,
+        WetterCom,
+        LastBackend = WetterCom
+    };
+    void setBackend(Backend backend);
+    Backend m_backend;
 
     WeatherParserBase *m_parser;
     DataProvider::Ptr m_provider;

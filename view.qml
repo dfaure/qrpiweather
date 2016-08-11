@@ -6,6 +6,22 @@ ListView {
     model: myModel
     orientation: ListView.Horizontal
 
+    MultiPointTouchArea {
+        property real startX: 0
+        property real startY: 0
+        anchors.fill: parent
+        onPressed: { startX = touchPoints[0].x; startY = touchPoints[0].y; }
+        onReleased: {
+            // touchPoints[0].startX/Y is always 0, no idea why
+            var diffX = touchPoints[0].x - startX;
+            var diffY = touchPoints[0].y - startY;
+            console.debug("diffX=" + diffX + " diffY=" + diffY);
+            if (Math.abs(diffY) > Math.abs(diffX) && Math.abs(diffY) > 10) {
+                myModel.toggleBackend();
+            }
+        }
+    }
+
     delegate: Item {
         height: parent.height;
         width: 200

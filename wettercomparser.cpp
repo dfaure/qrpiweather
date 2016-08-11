@@ -141,7 +141,7 @@ QVector<WeatherData> WetterComParser::parse(const QByteArray &data)
             } else if (elementName == QLatin1String("time")) {
                 // we have parsed one forecast
 
-                qDebug() << "Parsed a forecast interval:" << date << time;
+                //qDebug() << "Parsed a forecast interval:" << date << time;
                 time.clear();
                 wdlist.append(weatherData);
                 weatherData = WeatherData();
@@ -156,11 +156,11 @@ QVector<WeatherData> WetterComParser::parse(const QByteArray &data)
                 time = xml.attributes().value(QStringLiteral("value")).toString();
             } else if (elementName == QLatin1String("tx")) {
                 const double tempMax = qRound(xml.readElementText().toDouble());
-                qDebug() << "parsed t_max:" << tempMax;
+                //qDebug() << "parsed t_max:" << tempMax;
                 weatherData.setTemperature(tempMax);
             } else if (elementName == QLatin1String("tn")) {
                 const double tempMin = qRound(xml.readElementText().toDouble());
-                qDebug() << "parsed t_min:" << tempMin;
+                //qDebug() << "parsed t_min:" << tempMin;
                 // TODO how to use it?
             } else if (elementName == QLatin1String("w")) {
                 int tmp = xml.readElementText().toInt();
@@ -174,11 +174,11 @@ QVector<WeatherData> WetterComParser::parse(const QByteArray &data)
 
                 weatherData.setWeatherIcon(dayIcons.value(weatherString));
 
-                qDebug() << "parsed weather condition:" << weatherString;
+                //qDebug() << "parsed weather condition:" << weatherString;
 #if 0
             } else if (elementName == QLatin1String("name")) {
                 const QString stationName = xml.readElementText();
-                qDebug() << "parsed station name:" << stationName; // VEDENE
+                //qDebug() << "parsed station name:" << stationName; // VEDENE
             } else if (elementName == QLatin1String("pc")) {
                 int tmp = xml.readElementText().toInt();
 
@@ -187,7 +187,7 @@ QVector<WeatherData> WetterComParser::parse(const QByteArray &data)
                 else
                     summaryProbability = tmp;
 
-                qDebug() << "parsed probability:" << probability;
+                //qDebug() << "parsed probability:" << probability;
             } else if (elementName == QLatin1String("text")) {
                 const QString credits = xml.readElementText();
                 //qDebug() << "parsed credits:" << credits; // "Powered by wetter.com"
@@ -198,7 +198,7 @@ QVector<WeatherData> WetterComParser::parse(const QByteArray &data)
             } else if (elementName == QLatin1String("d")) {
                 const quint64 localTime = xml.readElementText().toULongLong();
                 weatherData.setDateTime(QDateTime::fromTime_t(localTime));
-                qDebug() << "parsed local time:" << localTime;
+                //qDebug() << "parsed local time:" << localTime;
             } else if (elementName == QLatin1String("du")) {
 #if 0
                 int tmp = xml.readElementText().toInt();
