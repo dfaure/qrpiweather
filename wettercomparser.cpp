@@ -177,7 +177,7 @@ QVector<WeatherData> WetterComParser::parse(const QByteArray &data)
 
                 QString weatherString = QString::number(weather);
 
-                weatherData.setWeatherIcon(dayIcons.value(weatherString));
+                weatherData.setWeatherIcon("image://fromTheme/" + dayIcons.value(weatherString));
 
                 //qDebug() << "parsed weather condition:" << weatherString;
 #if 0

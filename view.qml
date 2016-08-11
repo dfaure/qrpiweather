@@ -45,7 +45,7 @@ ListView {
                 Image { anchors.horizontalCenter: parent.horizontalCenter
                     width: 100
                     height: 100
-                    source: "image://fromTheme/" + model.weatherIcon
+                    source: model.weatherIcon
                 }
                 Text { anchors.horizontalCenter: parent.horizontalCenter
                     font.pixelSize: 24; text: model.temperature + "°C" }

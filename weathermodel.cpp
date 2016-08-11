@@ -8,15 +8,20 @@
 #include <QJsonDocument>
 #include <QFile>
 #include <QDateTime>
+#include <QTimer>
 
 #include <iostream>
 
 WeatherModel::WeatherModel(QObject *parent)
     : QAbstractTableModel(parent),
-      m_parser(Q_NULLPTR)
+      m_parser(Q_NULLPTR),
+      m_reloadTimer(new QTimer(this))
 {
     m_backend = OpenWeatherMap;
     setBackend(m_backend);
+
+    connect(m_reloadTimer, &QTimer::timeout, this, &WeatherModel::fetchData);
+    m_reloadTimer->start(10 * 60 * 1000); // 10 minutes
 }
 
 WeatherModel::~WeatherModel()

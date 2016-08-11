@@ -71,7 +71,7 @@ QVector<WeatherData> OpenWeatherMapParser::parse(const QByteArray &data)
         return wdlist;
     }
 
-#if 1
+#if 0
     QFile dump("dump.json");
     if (dump.open(QIODevice::WriteOnly)) {
         dump.write(doc.toJson(QJsonDocument::Indented));
@@ -95,8 +95,19 @@ QVector<WeatherData> OpenWeatherMapParser::parse(const QByteArray &data)
         const int wind_direction = windObject.value("deg").toInt();
         const QJsonObject rainObject = details.value("rain").toObject();
         const double mm_rain = rainObject.value("3h").toDouble();
+        const QJsonArray weatherArray = details.value("weather").toArray();
+        const QJsonObject weatherObject = weatherArray.isEmpty() ? QJsonObject() : weatherArray.at(0).toObject();
+        const QString iconName = weatherObject.value("icon").toString();
+
+        // Should we display this?
+        // qDebug() << weatherObject.value("description").toString();
+        // English: clear sky, few clouds
+        // France: ensoleillé, ensoleillé
+
         WeatherData wd;
         wd.setTemperatureWindRain(dateTime, celsius, average_wind, gust_wind, wind_direction, mm_rain);
+        // see http://openweathermap.org/weather-conditions
+        wd.setWeatherIcon("http://openweathermap.org/img/w/" + iconName + ".png");
         wdlist.append(wd);
         //qDebug() << dateTime << celsius << "vent" << average_wind << gust_wind << "direction" << wind_direction << "rain" << mm_rain;
     }
