@@ -1,7 +1,5 @@
 #include <QObject>
 #include <QDebug>
-#include <QJsonDocument>
-#include <QJsonObject>
 
 #include <QTest>
 #include <QSignalSpy>
