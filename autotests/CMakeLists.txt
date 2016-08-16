@@ -3,6 +3,7 @@ include(ECMAddTests)
 
 ecm_add_tests(
     infoclimatparsertest.cpp
+    openweathermapparsertest.cpp
     wettercomparsertest.cpp
     weatherdatatest.cpp
 LINK_LIBRARIES
