@@ -6,6 +6,7 @@
 #include "weatherdata.h"
 class WeatherParserBase;
 class QIODevice;
+class QTimer;
 
 class WeatherModel : public QAbstractTableModel
 {
@@ -43,9 +44,9 @@ signals:
 private slots:
     void slotDataAvailable(const QByteArray &data);
     void slotError();
+    void fetchData();
 
 private:
-    void fetchData();
 
     QVector<WeatherData> m_data;
 
@@ -60,6 +61,7 @@ private:
 
     WeatherParserBase *m_parser;
     DataProvider::Ptr m_provider;
+    QTimer *m_reloadTimer;
 };
 
 #endif // WEATHERMODEL_H
