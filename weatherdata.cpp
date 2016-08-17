@@ -135,6 +135,24 @@ QString WeatherDataEntry::weather_icon() const
 
 void WeatherData::merge(const QVector<WeatherDataEntry> &vec)
 {
-    // TODO
-    m_data = vec;
+    if (vec.isEmpty()) {
+        return;
+    }
+    if (m_data.isEmpty()) {
+        m_data = vec;
+    } else {
+        // Assumption: m_data has older data than vec
+        // Set insertIdx to where vec should go to.
+        const QDateTime newStart = vec.at(0).dateTime();
+        int insertIdx = m_data.count();
+        for (int i = 0; i < m_data.count(); ++i) {
+            const QDateTime existingStart = m_data.at(i).dateTime();
+            if (existingStart >= newStart) {
+                insertIdx = i;
+                break;
+            }
+        }
+        m_data.resize(insertIdx);
+        m_data += vec;
+    }
 }

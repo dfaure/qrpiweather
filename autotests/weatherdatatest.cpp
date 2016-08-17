@@ -6,10 +6,11 @@ class WeatherDataTest : public QObject
     Q_OBJECT
 
 private Q_SLOTS:
-    void testBasicApi();
+    void testBasicEntryApi();
+    void testBasicDataApi();
 };
 
-void WeatherDataTest::testBasicApi()
+void WeatherDataTest::testBasicEntryApi()
 {
     WeatherDataEntry wd;
     QDateTime dateTime(QDate(2016, 8, 30), QTime(1, 2, 3));
@@ -19,6 +20,12 @@ void WeatherDataTest::testBasicApi()
     int wind_direction = 357;
     double mm_rain = 2.1;
     wd.setTemperatureWindRain(dateTime, celsius, average_wind, gust_wind, wind_direction, mm_rain);
+}
+
+void WeatherDataTest::testBasicDataApi()
+{
+    WeatherData data;
+    QCOMPARE(data.count(), 0);
 }
 
 QTEST_MAIN(WeatherDataTest)
