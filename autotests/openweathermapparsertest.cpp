@@ -89,14 +89,16 @@ void OpenWeatherMapParserTest::mergeWithExistingData()
     data.merge(olderVector);
     QCOMPARE(data.count(), 40);
 
-    data.merge(newerVector);
-    QCOMPARE(data.count(), 64);
-    QCOMPARE(data.at(0).toString(), QStringLiteral("2016-08-11 21:00:00.000 CEST, temp=18, wind=(25, 0, 0), rain=0, icon=http://openweathermap.org/img/w/01n.png"));
-    QCOMPARE(data.at(data.count() - 1).toString(), QStringLiteral("2016-08-19 18:00:00.000 CEST, temp=22, wind=(28, 0, 0), rain=0, icon=http://openweathermap.org/img/w/01d.png"));
-    // Check the time intervals are equal (none skipped, none duplicated)
-    for (int i = 1; i < data.count(); ++i) {
-        const int deltaSecs = data.at(i - 1).dateTime().secsTo(data.at(i).dateTime());
-        QCOMPARE(deltaSecs, 3 * 3600); // 3 hours
+    for (int iteration = 0; iteration < 2; ++iteration) {
+        data.merge(newerVector);
+        QCOMPARE(data.count(), 64);
+        QCOMPARE(data.at(0).toString(), QStringLiteral("2016-08-11 21:00:00.000 CEST, temp=18, wind=(25, 0, 0), rain=0, icon=http://openweathermap.org/img/w/01n.png"));
+        QCOMPARE(data.at(data.count() - 1).toString(), QStringLiteral("2016-08-19 18:00:00.000 CEST, temp=22, wind=(28, 0, 0), rain=0, icon=http://openweathermap.org/img/w/01d.png"));
+        // Check the time intervals are equal (none skipped, none duplicated)
+        for (int i = 1; i < data.count(); ++i) {
+            const int deltaSecs = data.at(i - 1).dateTime().secsTo(data.at(i).dateTime());
+            QCOMPARE(deltaSecs, 3 * 3600); // 3 hours
+        }
     }
 }
 
