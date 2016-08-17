@@ -30,8 +30,9 @@ ListView {
             width: parent.width
             height: parent.height; clip: true
             border.color: "#8080b0"; radius: 8
+            color: model.time < 8 || model.time > 20 ? "#AAAAAA" : "white"
 
-            Rectangle { anchors.fill: column; border.color: "blue"; }
+            // Rectangle { anchors.fill: column; border.color: "blue"; }
             Column {
                 width: parent.width
                 id: column
@@ -39,7 +40,7 @@ ListView {
                 padding: 6
                 Text { anchors.horizontalCenter: parent.horizontalCenter
                     font.pixelSize: 24; text: model.dayOfWeek + " " + model.time + "h" }
-                Rectangle { width: parent.width ; height: 10 }
+                Item { width: parent.width ; height: 10 }
 
                 // Temperature
                 Image { anchors.horizontalCenter: parent.horizontalCenter
