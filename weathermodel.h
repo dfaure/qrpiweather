@@ -48,7 +48,7 @@ private slots:
 
 private:
 
-    QVector<WeatherData> m_data;
+    WeatherData m_data;
 
     enum Backend {
         InfoClimat,

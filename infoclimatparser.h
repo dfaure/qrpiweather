@@ -37,7 +37,7 @@ public:
     QUrl url() const Q_DECL_OVERRIDE;
     QString cacheFileName() const Q_DECL_OVERRIDE;
     QString backendName() const Q_DECL_OVERRIDE;
-    QVector<WeatherData> parse(const QByteArray &data) Q_DECL_OVERRIDE;
+    QVector<WeatherDataEntry> parse(const QByteArray &data) Q_DECL_OVERRIDE;
 };
 
 #endif

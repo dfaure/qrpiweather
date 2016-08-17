@@ -54,7 +54,7 @@ QVariant WeatherModel::data(const QModelIndex &index, int role) const
     if (row >= m_data.count())
         return QVariant();
 
-    const WeatherData &wd = m_data.at(row);
+    const WeatherDataEntry &wd = m_data.at(row);
 
     switch (role) {
     case Qt::DisplayRole:
@@ -116,7 +116,7 @@ void WeatherModel::slotDataAvailable(const QByteArray &data)
 {
     qDebug();
     beginResetModel();
-    m_data = m_parser->parse(data);
+    m_data.merge(m_parser->parse(data));
     endResetModel();
     qDebug() << m_data.count() << "data" << rowCount() << "rows";
 }

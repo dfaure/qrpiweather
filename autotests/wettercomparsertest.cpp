@@ -43,7 +43,7 @@ void WetterComParserTest::parserShouldFetchDatesAndData()
     fetchData(&data);
 
     WetterComParser parser;
-    QVector<WeatherData> wdlist = parser.parse(data);
+    QVector<WeatherDataEntry> wdlist = parser.parse(data);
     QCOMPARE(wdlist.count(), 12);
     QCOMPARE(wdlist.last().toString(), QStringLiteral("2016-08-14 01:00:00.000 CEST, temp=26, wind=(0, 0, 0), rain=0, icon=weather-few-clouds"));
 }

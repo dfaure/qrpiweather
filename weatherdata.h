@@ -3,19 +3,20 @@
 
 #include <QSharedDataPointer>
 #include <QMetaType>
+#include <QVector>
 
-class WeatherDataPrivate;
+class WeatherDataEntryPrivate;
 
-class WeatherData
+class WeatherDataEntry
 {
 public:
-    WeatherData();
-    ~WeatherData();
-    WeatherData(const WeatherData &other);
-    WeatherData(WeatherData &&other) noexcept;
+    WeatherDataEntry();
+    ~WeatherDataEntry();
+    WeatherDataEntry(const WeatherDataEntry &other);
+    WeatherDataEntry(WeatherDataEntry &&other) noexcept;
 
-    WeatherData &operator=(const WeatherData &other);
-    WeatherData &operator=(WeatherData &&other);
+    WeatherDataEntry &operator=(const WeatherDataEntry &other);
+    WeatherDataEntry &operator=(WeatherDataEntry &&other);
 
     void setTemperatureWindRain(const QDateTime &dateTime,
                                 int temperature_celsius,
@@ -36,10 +37,23 @@ public:
     QString weather_icon() const;
 
 private:
-    QSharedDataPointer<WeatherDataPrivate> d;
+    QSharedDataPointer<WeatherDataEntryPrivate> d;
 };
 
-Q_DECLARE_METATYPE(WeatherData)
-Q_DECLARE_TYPEINFO(WeatherData, Q_MOVABLE_TYPE);
+class WeatherData
+{
+public:
+    int count() const { return m_data.count(); }
+    WeatherDataEntry at(int i) const { return m_data.at(i); }
+
+    void merge(const QVector<WeatherDataEntry> &vec);
+
+private:
+    QVector<WeatherDataEntry> m_data;
+};
+
+
+Q_DECLARE_METATYPE(WeatherDataEntry)
+Q_DECLARE_TYPEINFO(WeatherDataEntry, Q_MOVABLE_TYPE);
 
 #endif // WEATHERDATA_H

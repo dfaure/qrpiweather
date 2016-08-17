@@ -125,12 +125,12 @@ static QMap<QString, QString> setupNightIconMappings()
     return conditionList;
 }
 
-QVector<WeatherData> WetterComParser::parse(const QByteArray &data)
+QVector<WeatherDataEntry> WetterComParser::parse(const QByteArray &data)
 {
     static QMap<QString, QString> dayIcons = setupDayIconMappings();
     QString date, time;
-    QVector<WeatherData> wdlist;
-    WeatherData weatherData;
+    QVector<WeatherDataEntry> wdlist;
+    WeatherDataEntry weatherData;
     QXmlStreamReader xml(data);
     while (!xml.atEnd()) {
         xml.readNext();
@@ -149,7 +149,7 @@ QVector<WeatherData> WetterComParser::parse(const QByteArray &data)
                 //qDebug() << "Parsed a forecast interval:" << date << time;
                 time.clear();
                 wdlist.append(weatherData);
-                weatherData = WeatherData();
+                weatherData = WeatherDataEntry();
             }
         }
         if (xml.isStartElement()) {

@@ -11,7 +11,7 @@ private Q_SLOTS:
 
 void WeatherDataTest::testBasicApi()
 {
-    WeatherData wd;
+    WeatherDataEntry wd;
     QDateTime dateTime(QDate(2016, 8, 30), QTime(1, 2, 3));
     int celsius = 42;
     double average_wind = 4.2;

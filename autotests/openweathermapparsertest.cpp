@@ -43,7 +43,7 @@ void OpenWeatherMapParserTest::parserShouldFetchDatesAndData()
     fetchData(&data);
 
     OpenWeatherMapParser parser;
-    QVector<WeatherData> wdlist = parser.parse(data);
+    QVector<WeatherDataEntry> wdlist = parser.parse(data);
     QCOMPARE(wdlist.count(), 40);
     QCOMPARE(wdlist.first().toString(), QStringLiteral("2016-08-11 21:00:00.000 CEST, temp=18, wind=(25, 0, 0), rain=0, icon=http://openweathermap.org/img/w/01n.png"));
     QCOMPARE(wdlist.last().toString(), QStringLiteral("2016-08-16 18:00:00.000 CEST, temp=25, wind=(14, 0, 0), rain=0, icon=http://openweathermap.org/img/w/01d.png"));

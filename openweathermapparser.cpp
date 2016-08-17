@@ -56,9 +56,9 @@ QString OpenWeatherMapParser::backendName() const
     return QStringLiteral("openweathermap.org");
 }
 
-QVector<WeatherData> OpenWeatherMapParser::parse(const QByteArray &data)
+QVector<WeatherDataEntry> OpenWeatherMapParser::parse(const QByteArray &data)
 {
-    QVector<WeatherData> wdlist;
+    QVector<WeatherDataEntry> wdlist;
     if (data.startsWith("<html>")) { // error
         qWarning() << QString::fromLatin1(data);
         return wdlist;
@@ -104,7 +104,7 @@ QVector<WeatherData> OpenWeatherMapParser::parse(const QByteArray &data)
         // English: clear sky, few clouds
         // France: ensoleillé, ensoleillé
 
-        WeatherData wd;
+        WeatherDataEntry wd;
         wd.setTemperatureWindRain(dateTime, celsius, average_wind, gust_wind, wind_direction, mm_rain);
         // see http://openweathermap.org/weather-conditions
         wd.setWeatherIcon("http://openweathermap.org/img/w/" + iconName + ".png");
