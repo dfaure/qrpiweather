@@ -145,14 +145,23 @@ void WeatherData::merge(const QVector<WeatherDataEntry> &vec)
         // Set insertIdx to where vec should go to.
         const QDateTime newStart = vec.at(0).dateTime();
         int insertIdx = m_data.count();
+        int numOutdatedEntries = 0;
         for (int i = 0; i < m_data.count(); ++i) {
             const QDateTime existingStart = m_data.at(i).dateTime();
             if (existingStart >= newStart) {
                 insertIdx = i;
                 break;
             }
+            if (existingStart.daysTo(newStart) > 5) {
+                ++numOutdatedEntries;
+            }
         }
         m_data.resize(insertIdx);
         m_data += vec;
+
+        // Delete data older than a week
+        if (numOutdatedEntries > 0) {
+            m_data.remove(0, numOutdatedEntries);
+        }
     }
 }

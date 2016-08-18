@@ -51,6 +51,9 @@ void OpenWeatherMapParserTest::parserShouldFetchDatesAndData_data()
     QTest::newRow("openweathermap-2.json") << "openweathermap-2.json"
                                          << QStringLiteral("2016-08-14 21:00:00.000 CEST, temp=13, wind=(5, 0, 0), rain=0, icon=http://openweathermap.org/img/w/01n.png")
                                          << QStringLiteral("2016-08-19 18:00:00.000 CEST, temp=22, wind=(28, 0, 0), rain=0, icon=http://openweathermap.org/img/w/01d.png");
+    QTest::newRow("openweathermap-3.json") << "openweathermap-3.json"
+                                         << QStringLiteral("2016-08-24 21:00:00.000 CEST, temp=13, wind=(5, 0, 0), rain=0, icon=http://openweathermap.org/img/w/01n.png")
+                                         << QStringLiteral("2016-08-29 18:00:00.000 CEST, temp=22, wind=(28, 0, 0), rain=0, icon=http://openweathermap.org/img/w/01d.png");
 }
 
 void OpenWeatherMapParserTest::parserShouldFetchDatesAndData()
@@ -93,13 +96,23 @@ void OpenWeatherMapParserTest::mergeWithExistingData()
         data.merge(newerVector);
         QCOMPARE(data.count(), 64);
         QCOMPARE(data.at(0).toString(), QStringLiteral("2016-08-11 21:00:00.000 CEST, temp=18, wind=(25, 0, 0), rain=0, icon=http://openweathermap.org/img/w/01n.png"));
-        QCOMPARE(data.at(data.count() - 1).toString(), QStringLiteral("2016-08-19 18:00:00.000 CEST, temp=22, wind=(28, 0, 0), rain=0, icon=http://openweathermap.org/img/w/01d.png"));
+        QCOMPARE(data.at(data.count() - 1).toString(), newerVector.last().toString());
         // Check the time intervals are equal (none skipped, none duplicated)
         for (int i = 1; i < data.count(); ++i) {
             const int deltaSecs = data.at(i - 1).dateTime().secsTo(data.at(i).dateTime());
             QCOMPARE(deltaSecs, 3 * 3600); // 3 hours
         }
     }
+
+    // Check we only keep one week of old data
+    QVERIFY(data.at(0).dateTime().daysTo(data.at(data.count() - 1).dateTime()) <= 10);
+
+    QByteArray later;
+    fetchData(&later, "openweathermap-3.json");
+    const QVector<WeatherDataEntry> laterVector = parser.parse(later);
+    data.merge(laterVector);
+    QVERIFY(data.at(0).dateTime().daysTo(data.at(data.count() - 1).dateTime()) <= 10);
+    QCOMPARE(data.count(), 47);
 }
 
 QTEST_MAIN(OpenWeatherMapParserTest)
