@@ -20,6 +20,7 @@ public:
     int wind_direction;
     double mm_rain;
     QString weather_icon;
+    QString weather_description;
 };
 
 WeatherDataEntry::WeatherDataEntry()
@@ -68,7 +69,6 @@ void WeatherDataEntry::setTemperatureWindRain(const QDateTime &dateTime, int cel
     dp->gust_wind = gust_wind;
     dp->wind_direction = wind_direction;
     dp->mm_rain = mm_rain;
-    // TODO: missing weather_icon
 }
 
 void WeatherDataEntry::setDateTime(const QDateTime &dateTime)
@@ -81,9 +81,10 @@ void WeatherDataEntry::setTemperature(int temperature_celsius)
     d->temperature_celsius = temperature_celsius;
 }
 
-void WeatherDataEntry::setWeatherIcon(const QString &icon)
+void WeatherDataEntry::setWeatherIcon(const QString &icon, const QString &description)
 {
     d->weather_icon = icon;
+    d->weather_description = description;
 }
 
 QString WeatherDataEntry::toString() const
@@ -95,6 +96,8 @@ QString WeatherDataEntry::toString() const
             + ", " + QString::number(dp->wind_direction) + "), rain=" + QString::number(dp->mm_rain);
     if (!dp->weather_icon.isEmpty())
         str += ", icon=" + dp->weather_icon;
+    if (!dp->weather_description.isEmpty())
+        str += ", description=" + dp->weather_description;
     return str;
 }
 
@@ -131,6 +134,11 @@ double WeatherDataEntry::mm_rain() const
 QString WeatherDataEntry::weather_icon() const
 {
     return d->weather_icon;
+}
+
+QString WeatherDataEntry::weather_description() const
+{
+    return d->weather_description;
 }
 
 void WeatherData::merge(const QVector<WeatherDataEntry> &vec)

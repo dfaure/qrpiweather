@@ -42,7 +42,7 @@ QUrl OpenWeatherMapParser::url() const
     // http://bulk.openweathermap.org/sample/city.list.json.gz says:
     // {"_id":6445119,"name":"Vedène","country":"FR","coord":{"lon":4.9,"lat":43.98333}}
     // {"_id":2970253,"name":"Vedene","country":"FR","coord":{"lon":4.90428,"lat":43.97744}}
-    QUrl url("http://api.openweathermap.org/data/2.5/forecast?id=2970253&units=metric&appid=70b19951ab915a2ea046ac59279a601c");
+    QUrl url("http://api.openweathermap.org/data/2.5/forecast?id=2970253&units=metric&lang=fr&appid=70b19951ab915a2ea046ac59279a601c");
     return url;
 }
 
@@ -99,15 +99,14 @@ QVector<WeatherDataEntry> OpenWeatherMapParser::parse(const QByteArray &data)
         const QJsonObject weatherObject = weatherArray.isEmpty() ? QJsonObject() : weatherArray.at(0).toObject();
         const QString iconName = weatherObject.value("icon").toString();
 
-        // Should we display this?
-        // qDebug() << weatherObject.value("description").toString();
+        const QString description = weatherObject.value("description").toString();
         // English: clear sky, few clouds
         // France: ensoleillé, ensoleillé
 
         WeatherDataEntry wd;
         wd.setTemperatureWindRain(dateTime, celsius, average_wind, gust_wind, wind_direction, mm_rain);
         // see http://openweathermap.org/weather-conditions
-        wd.setWeatherIcon("http://openweathermap.org/img/w/" + iconName + ".png");
+        wd.setWeatherIcon("http://openweathermap.org/img/w/" + iconName + ".png", description);
         wdlist.append(wd);
         //qDebug() << dateTime << celsius << "vent" << average_wind << gust_wind << "direction" << wind_direction << "rain" << mm_rain;
     }

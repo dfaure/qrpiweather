@@ -24,7 +24,7 @@ public:
                                 double mm_rain);
     void setDateTime(const QDateTime &dateTime);
     void setTemperature(int temperature_celsius);
-    void setWeatherIcon(const QString &icon);
+    void setWeatherIcon(const QString &icon, const QString &description);
 
     QString toString() const;
 
@@ -35,6 +35,7 @@ public:
     int wind_direction() const;
     double mm_rain() const;
     QString weather_icon() const;
+    QString weather_description() const;
 
 private:
     QSharedDataPointer<WeatherDataEntryPrivate> d;

@@ -167,6 +167,7 @@ QVector<WeatherDataEntry> WetterComParser::parse(const QByteArray &data)
                 const double tempMin = qRound(xml.readElementText().toDouble());
                 //qDebug() << "parsed t_min:" << tempMin;
                 // TODO how to use it?
+                Q_UNUSED(tempMin);
             } else if (elementName == QLatin1String("w")) {
                 int tmp = xml.readElementText().toInt();
                 int weather;
@@ -177,7 +178,7 @@ QVector<WeatherDataEntry> WetterComParser::parse(const QByteArray &data)
 
                 QString weatherString = QString::number(weather);
 
-                weatherData.setWeatherIcon("image://fromTheme/" + dayIcons.value(weatherString));
+                weatherData.setWeatherIcon("image://fromTheme/" + dayIcons.value(weatherString), QString());
 
                 //qDebug() << "parsed weather condition:" << weatherString;
 #if 0

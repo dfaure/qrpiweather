@@ -49,6 +49,9 @@ ListView {
                     source: model.weatherIcon
                 }
                 Text { anchors.horizontalCenter: parent.horizontalCenter
+                    font.pixelSize: 24; text: model.weatherDescription }
+
+                Text { anchors.horizontalCenter: parent.horizontalCenter
                     font.pixelSize: 24; text: model.temperature + "°C" }
 
                 // Wind

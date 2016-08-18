@@ -77,6 +77,8 @@ QVariant WeatherModel::data(const QModelIndex &index, int role) const
         return wd.mm_rain();
     case WeatherIcon:
         return wd.weather_icon();
+    case WeatherDescription:
+        return wd.weather_description();
     default:
         break;
     }
@@ -94,6 +96,7 @@ QHash<int, QByteArray> WeatherModel::roleNames() const
     roles.insert(WindDirection, "windDirection");
     roles.insert(Rain, "rain");
     roles.insert(WeatherIcon, "weatherIcon");
+    roles.insert(WeatherDescription, "weatherDescription");
     return roles;
 }
 

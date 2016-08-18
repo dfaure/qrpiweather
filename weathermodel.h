@@ -25,7 +25,8 @@ public:
         GustWind,
         WindDirection,
         Rain,
-        WeatherIcon
+        WeatherIcon,
+        WeatherDescription
     };
 
     // Basic functionality:
