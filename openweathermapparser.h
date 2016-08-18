@@ -26,7 +26,7 @@
 class QJsonDocument;
 
 /**
- * Works, but nebulosity is missing, and the data doesn't seem very accurate....
+ * The main backend
  */
 class OpenWeatherMapParser : public WeatherParserBase
 {
@@ -38,6 +38,8 @@ public:
     QString cacheFileName() const Q_DECL_OVERRIDE;
     QString backendName() const Q_DECL_OVERRIDE;
     QVector<WeatherDataEntry> parse(const QByteArray &data) Q_DECL_OVERRIDE;
+
+    static bool save(const QVector<WeatherDataEntry >& entries, const QString &fileName);
 };
 
 #endif

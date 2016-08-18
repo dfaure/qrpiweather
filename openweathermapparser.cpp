@@ -112,3 +112,45 @@ QVector<WeatherDataEntry> OpenWeatherMapParser::parse(const QByteArray &data)
     }
     return wdlist;
 }
+
+bool OpenWeatherMapParser::save(const QVector<WeatherDataEntry> &entries, const QString &fileName)
+{
+    QFile file(fileName);
+    if (!file.open(QIODevice::WriteOnly)) {
+        qWarning() << "Couldn't open" << fileName << "for writing";
+        return false;
+    }
+    QJsonDocument doc;
+    QJsonObject rootObject;
+    QJsonArray wdlist;
+    for (const WeatherDataEntry &entry : entries) {
+        QJsonObject details;
+        details.insert("dt_txt", entry.dateTime().toString(Qt::ISODate));
+        QJsonObject main;
+        main.insert("temp", entry.temperature_celsius());
+        details.insert("main", main);
+        QJsonObject windObject;
+        windObject.insert("speed", entry.average_wind() / 3.6);
+        windObject.insert("deg", entry.wind_direction());
+        details.insert("wind", windObject);
+        QJsonObject rain;
+        rain.insert("3h", entry.mm_rain());
+        details.insert("rain", rain);
+        QJsonArray weatherArray;
+        QJsonObject weatherObject;
+        QString basename = QUrl(entry.weather_icon()).fileName();
+        Q_ASSERT(basename.endsWith(".png"));
+        basename.chop(4);
+        weatherObject.insert("icon", basename);
+        weatherObject.insert("description", entry.weather_description());
+        weatherArray.append(weatherObject);
+        details.insert("weather", weatherArray);
+        wdlist.append(details);
+    }
+    rootObject.insert("list", wdlist);
+    doc.setObject(rootObject);
+
+    const QByteArray data = doc.toJson();
+    //qDebug() << QString::fromUtf8(data);
+    return file.write(data) == data.size();
+}

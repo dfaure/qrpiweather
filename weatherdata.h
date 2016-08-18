@@ -41,6 +41,9 @@ private:
     QSharedDataPointer<WeatherDataEntryPrivate> d;
 };
 
+Q_DECLARE_METATYPE(WeatherDataEntry)
+Q_DECLARE_TYPEINFO(WeatherDataEntry, Q_MOVABLE_TYPE);
+
 class WeatherData
 {
 public:
@@ -49,12 +52,12 @@ public:
 
     void merge(const QVector<WeatherDataEntry> &vec);
 
+    // accessor (for saving)
+    QVector<WeatherDataEntry> entries() const { return m_data; }
+
 private:
     QVector<WeatherDataEntry> m_data;
 };
 
-
-Q_DECLARE_METATYPE(WeatherDataEntry)
-Q_DECLARE_TYPEINFO(WeatherDataEntry, Q_MOVABLE_TYPE);
 
 #endif // WEATHERDATA_H
