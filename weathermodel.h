@@ -48,6 +48,7 @@ private slots:
     void fetchData();
 
 private:
+    QString autoSaveFileName() const;
 
     WeatherData m_data;
 

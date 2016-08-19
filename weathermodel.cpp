@@ -9,8 +9,11 @@
 #include <QFile>
 #include <QDateTime>
 #include <QTimer>
+#include <QStandardPaths>
+#include <qfileinfo.h>
 
 #include <iostream>
+#include <qdir.h>
 
 WeatherModel::WeatherModel(QObject *parent)
     : QAbstractTableModel(parent),
@@ -122,6 +125,9 @@ void WeatherModel::slotDataAvailable(const QByteArray &data)
     m_data.merge(m_parser->parse(data));
     endResetModel();
     qDebug() << m_data.count() << "data" << rowCount() << "rows";
+
+    QDir().mkpath(QFileInfo(autoSaveFileName()).absolutePath());
+    OpenWeatherMapParser::save(m_data.entries(), autoSaveFileName());
 }
 
 void WeatherModel::slotError()
@@ -138,8 +144,14 @@ void WeatherModel::fetchData()
     m_provider->ensureDataAvailable();
 }
 
+QString WeatherModel::autoSaveFileName() const
+{
+    return QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/autosave.json";
+}
+
 void WeatherModel::setBackend(WeatherModel::Backend backend)
 {
+    m_data.clear();
     delete m_parser;
     switch (backend) {
     case InfoClimat:
@@ -149,8 +161,15 @@ void WeatherModel::setBackend(WeatherModel::Backend backend)
         m_parser = new WetterComParser;
         break;
     case OpenWeatherMap:
+    {
         m_parser = new OpenWeatherMapParser;
+        beginResetModel();
+        QFile file(autoSaveFileName());
+        if (file.open(QIODevice::ReadOnly)) {
+            m_data.merge(m_parser->parse(file.readAll()));
+        }
         break;
+    }
     }
 
     emit backendNameChanged();

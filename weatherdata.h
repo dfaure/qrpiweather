@@ -51,6 +51,7 @@ public:
     WeatherDataEntry at(int i) const { return m_data.at(i); }
 
     void merge(const QVector<WeatherDataEntry> &vec);
+    void clear() { m_data.clear(); }
 
     // accessor (for saving)
     QVector<WeatherDataEntry> entries() const { return m_data; }
