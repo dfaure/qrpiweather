@@ -24,7 +24,7 @@ WeatherModel::WeatherModel(QObject *parent)
     setBackend(m_backend);
 
     connect(m_reloadTimer, &QTimer::timeout, this, &WeatherModel::fetchData);
-    m_reloadTimer->start(10 * 60 * 1000); // 10 minutes
+    m_reloadTimer->start(60 * 60 * 1000); // 1 hour
 }
 
 WeatherModel::~WeatherModel()
@@ -68,6 +68,8 @@ QVariant WeatherModel::data(const QModelIndex &index, int role) const
     }
     case Time:
         return wd.dateTime().time().hour();
+    case DateTime:
+        return wd.dateTime();
     case Temperature:
         return wd.temperature_celsius();
     case AverageWind:
@@ -93,6 +95,7 @@ QHash<int, QByteArray> WeatherModel::roleNames() const
     auto roles = QAbstractTableModel::roleNames();
     roles.insert(DayOfWeek, "dayOfWeek");
     roles.insert(Time, "time");
+    roles.insert(DateTime, "dateTime");
     roles.insert(Temperature, "temperature");
     roles.insert(AverageWind, "averageWind");
     roles.insert(GustWind, "gustWind");
@@ -116,6 +119,14 @@ void WeatherModel::toggleBackend()
 QString WeatherModel::backendName() const
 {
     return m_parser->backendName();
+}
+
+QDateTime WeatherModel::currentDateTime() const
+{
+    QDateTime dt = QDateTime::currentDateTime();
+    QTime time = dt.time();
+    time.setHMS(time.hour(), 0, 0); // we could round rather than truncate, but does it matter?
+    return QDateTime(dt.date(), time);
 }
 
 void WeatherModel::slotDataAvailable(const QByteArray &data)

@@ -38,8 +38,14 @@ ListView {
                 id: column
                 spacing: 10
                 padding: 6
-                Text { anchors.horizontalCenter: parent.horizontalCenter
-                    font.pixelSize: 24; text: model.dayOfWeek + " " + model.time + "h" }
+
+                // Date and Time
+                Text {
+                    property string baseText: model.dayOfWeek + " " + model.time + "h"
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    font.pixelSize: 24
+                    text: model.dateTime < myModel.currentDateTime ? "(" + baseText + ")" : baseText;
+                }
                 Item { width: parent.width ; height: 10 }
 
                 // Temperature

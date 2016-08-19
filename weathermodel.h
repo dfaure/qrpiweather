@@ -2,6 +2,7 @@
 #define WEATHERMODEL_H
 
 #include <QAbstractTableModel>
+#include <QDateTime>
 #include "dataprovider.h"
 #include "weatherdata.h"
 class WeatherParserBase;
@@ -12,6 +13,7 @@ class WeatherModel : public QAbstractTableModel
 {
     Q_OBJECT
     Q_PROPERTY(QString backendName READ backendName NOTIFY backendNameChanged)
+    Q_PROPERTY(QDateTime currentDateTime READ currentDateTime NOTIFY currentDateTimeChanged)
 
 public:
     explicit WeatherModel(QObject *parent = 0);
@@ -20,6 +22,7 @@ public:
     enum Roles {
         DayOfWeek = Qt::UserRole + 90,
         Time,
+        DateTime,
         Temperature,
         AverageWind,
         GustWind,
@@ -36,11 +39,14 @@ public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
     QHash<int, QByteArray> roleNames() const override;
 
+    // QML interface
     Q_INVOKABLE void toggleBackend();
     QString backendName() const;
+    QDateTime currentDateTime() const;
 
 signals:
     void backendNameChanged();
+    void currentDateTimeChanged();
 
 private slots:
     void slotDataAvailable(const QByteArray &data);
