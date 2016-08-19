@@ -5,6 +5,8 @@ ListView {
     height: 480
     model: myModel
     orientation: ListView.Horizontal
+    property var currentDateTime: myModel.currentDateTime
+    onCurrentDateTimeChanged: positionViewAtIndex(myModel.indexForCurrentDateTime, ListView.Beginning)
 
     MultiPointTouchArea {
         property real startX: 0

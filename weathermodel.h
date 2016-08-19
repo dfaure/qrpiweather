@@ -14,6 +14,7 @@ class WeatherModel : public QAbstractTableModel
     Q_OBJECT
     Q_PROPERTY(QString backendName READ backendName NOTIFY backendNameChanged)
     Q_PROPERTY(QDateTime currentDateTime READ currentDateTime NOTIFY currentDateTimeChanged)
+    Q_PROPERTY(int indexForCurrentDateTime READ indexForCurrentDateTime)
 
 public:
     explicit WeatherModel(QObject *parent = 0);
@@ -43,6 +44,7 @@ public:
     Q_INVOKABLE void toggleBackend();
     QString backendName() const;
     QDateTime currentDateTime() const;
+    int indexForCurrentDateTime() const;
 
 signals:
     void backendNameChanged();

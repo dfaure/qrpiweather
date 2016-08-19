@@ -53,7 +53,7 @@ public:
     void merge(const QVector<WeatherDataEntry> &vec);
     void clear() { m_data.clear(); }
 
-    // accessor (for saving)
+    // accessor (for saving, for iterating with STL iterators)
     QVector<WeatherDataEntry> entries() const { return m_data; }
 
 private:

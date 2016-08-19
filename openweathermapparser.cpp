@@ -99,9 +99,15 @@ QVector<WeatherDataEntry> OpenWeatherMapParser::parse(const QByteArray &data)
         const QJsonObject weatherObject = weatherArray.isEmpty() ? QJsonObject() : weatherArray.at(0).toObject();
         const QString iconName = weatherObject.value("icon").toString();
 
-        const QString description = weatherObject.value("description").toString();
+        QString description = weatherObject.value("description").toString();
         // English: clear sky, few clouds
         // France: ensoleillé, ensoleillé
+        if (description.startsWith("partiellement")) {
+            description.replace(' ', '\n');
+        }
+        if (!description.isEmpty()) {
+            description[0] = description[0].toUpper();
+        }
 
         WeatherDataEntry wd;
         wd.setTemperatureWindRain(dateTime, celsius, average_wind, gust_wind, wind_direction, mm_rain);
@@ -138,10 +144,12 @@ bool OpenWeatherMapParser::save(const QVector<WeatherDataEntry> &entries, const 
         details.insert("rain", rain);
         QJsonArray weatherArray;
         QJsonObject weatherObject;
-        QString basename = QUrl(entry.weather_icon()).fileName();
-        Q_ASSERT(basename.endsWith(".png"));
-        basename.chop(4);
-        weatherObject.insert("icon", basename);
+        if (!entry.weather_icon().isEmpty()) {
+            QString basename = QUrl(entry.weather_icon()).fileName();
+            Q_ASSERT(basename.endsWith(".png"));
+            basename.chop(4);
+            weatherObject.insert("icon", basename);
+        }
         weatherObject.insert("description", entry.weather_description());
         weatherArray.append(weatherObject);
         details.insert("weather", weatherArray);

@@ -129,6 +129,22 @@ QDateTime WeatherModel::currentDateTime() const
     return QDateTime(dt.date(), time);
 }
 
+int WeatherModel::indexForCurrentDateTime() const
+{
+    const QDateTime dt = currentDateTime();
+    const QVector<WeatherDataEntry> entries = m_data.entries();
+    const auto it = std::find_if(entries.constBegin(), entries.constEnd(),
+                           [dt](const WeatherDataEntry& entry) {
+        return entry.dateTime() >= dt;
+    });
+    if (it != entries.constEnd()) {
+        const int ret = std::distance(entries.constBegin(), it);
+        qDebug() << "Scrolling to" << ret;
+        return ret;
+    }
+    return -1;
+}
+
 void WeatherModel::slotDataAvailable(const QByteArray &data)
 {
     qDebug();
@@ -137,8 +153,13 @@ void WeatherModel::slotDataAvailable(const QByteArray &data)
     endResetModel();
     qDebug() << m_data.count() << "data" << rowCount() << "rows";
 
-    QDir().mkpath(QFileInfo(autoSaveFileName()).absolutePath());
-    OpenWeatherMapParser::save(m_data.entries(), autoSaveFileName());
+    if (m_backend == OpenWeatherMap) { // we could save all, but then we'd need different filenames...
+        // (and there are some round-trip issues with image paths etc.)
+        QDir().mkpath(QFileInfo(autoSaveFileName()).absolutePath());
+        OpenWeatherMapParser::save(m_data.entries(), autoSaveFileName());
+    }
+
+    emit currentDateTimeChanged();
 }
 
 void WeatherModel::slotError()
