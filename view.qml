@@ -1,14 +1,35 @@
 import QtQuick 2.6
 
 ListView {
+    id: view
     width: 800
     height: 480
-    model: myModel
+
+    property bool useProxy: false
+
+    model: useProxy ? proxyModel : myModel
     orientation: ListView.Horizontal
     property var currentDateTime: myModel.currentDateTime
-    onCurrentDateTimeChanged: positionViewAtIndex(myModel.indexForCurrentDateTime, ListView.Beginning)
+    onModelChanged: reposition()
+    onCurrentDateTimeChanged: reposition()
+
+    function reposition() {
+        positionViewAtIndex(model.indexForCurrentDateTime, ListView.Beginning);
+    }
+
+    PinchArea {
+        id: pinchy
+        anchors.fill: parent
+        onPinchFinished: {
+            if (pinch.scale < 1) // zoom out
+                useProxy = true
+            else if (pinch.scale > 1)
+                useProxy = false
+        }
+    }
 
     MultiPointTouchArea {
+        enabled: false
         property real startX: 0
         property real startY: 0
         anchors.fill: parent
@@ -25,7 +46,7 @@ ListView {
     }
 
     delegate: Item {
-        height: parent.height;
+        height: view.height;
         width: 200
 
         Rectangle {
@@ -60,7 +81,9 @@ ListView {
                     font.pixelSize: 24; text: model.weatherDescription }
 
                 Text { anchors.horizontalCenter: parent.horizontalCenter
-                    font.pixelSize: 24; text: model.temperature + "°C" }
+                    font.pixelSize: 24;
+                    font.bold: model.time === 15
+                    text: model.temperature + "°C" }
 
                 // Wind
                 Image { anchors.horizontalCenter: parent.horizontalCenter
@@ -89,6 +112,6 @@ ListView {
 
     Text {
         anchors { bottom: parent.bottom; right: parent.right }
-        text: myModel.backendName;
+        text: myModel.backendName + " last updated " + myModel.lastSuccessfulUpdate;
     }
 }

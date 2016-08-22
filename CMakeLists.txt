@@ -3,18 +3,18 @@ project(qmeteofrance)
 find_package(Qt5 CONFIG REQUIRED Core Gui Quick Network Test
     #Widgets
 )
+message(STATUS "Qt5 found at ${_qt5_install_prefix}")
 
 find_package(ECM 1.7.0 CONFIG REQUIRED)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${CMAKE_MODULE_PATH})
-find_package(KF5 REQUIRED COMPONENTS UnitConversion)
+
+#find_package(KF5 REQUIRED COMPONENTS UnitConversion)
 
 set(CMAKE_AUTOMOC true)
 set(CMAKE_AUTORCC true)
 include(KDEInstallDirs)
 include(KDECompilerSettings NO_POLICY_SCOPE)
 include(KDECMakeSettings)
-
-include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 # Shared code between client and autotest
 set(sharedfiles_SRCS
@@ -23,6 +23,7 @@ set(sharedfiles_SRCS
    httpdataprovider.cpp
    infoclimatparser.cpp
    openweathermapparser.cpp
+   skippingproxymodel.cpp
    weatherparserbase.cpp
    weatherdata.cpp
    weathermodel.cpp
@@ -33,7 +34,6 @@ target_link_libraries(libqmeteofrance
    Qt5::Core
    Qt5::Gui     # QIcon
    Qt5::Network
-   KF5::UnitConversion
 )
 
 add_subdirectory(autotests)

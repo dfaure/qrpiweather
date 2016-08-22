@@ -14,6 +14,7 @@ class WeatherModel : public QAbstractTableModel
     Q_OBJECT
     Q_PROPERTY(QString backendName READ backendName NOTIFY backendNameChanged)
     Q_PROPERTY(QDateTime currentDateTime READ currentDateTime NOTIFY currentDateTimeChanged)
+    Q_PROPERTY(QString lastSuccessfulUpdate READ lastSuccessfulUpdate NOTIFY lastSuccessfulUpdateChanged)
     Q_PROPERTY(int indexForCurrentDateTime READ indexForCurrentDateTime)
 
 public:
@@ -43,12 +44,14 @@ public:
     // QML interface
     Q_INVOKABLE void toggleBackend();
     QString backendName() const;
-    QDateTime currentDateTime() const;
+    static QDateTime currentDateTime();
     int indexForCurrentDateTime() const;
+    QString lastSuccessfulUpdate() const;
 
 signals:
     void backendNameChanged();
     void currentDateTimeChanged();
+    void lastSuccessfulUpdateChanged();
 
 private slots:
     void slotDataAvailable(const QByteArray &data);
@@ -72,6 +75,7 @@ private:
     WeatherParserBase *m_parser;
     DataProvider::Ptr m_provider;
     QTimer *m_reloadTimer;
+    QDateTime m_lastSuccessfulUpdate;
 };
 
 #endif // WEATHERMODEL_H

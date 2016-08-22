@@ -19,7 +19,6 @@
  */
 
 #include "openweathermapparser.h"
-#include <KUnitConversion/Value>
 
 #include <QDateTime>
 #include <QDebug>

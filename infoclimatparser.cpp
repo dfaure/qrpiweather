@@ -19,7 +19,6 @@
  */
 
 #include "infoclimatparser.h"
-#include <KUnitConversion/Value>
 
 #include <QDateTime>
 #include <QDebug>
@@ -85,8 +84,7 @@ QVector<WeatherDataEntry> InfoClimatParser::parse(const QByteArray &data)
         const QJsonObject details = root.value(key).toObject();
         const QJsonObject temperature = details.value("temperature").toObject();
         const double kelvin = temperature.value("sol").toDouble();
-        KUnitConversion::Value temp(kelvin, KUnitConversion::Kelvin);
-        const int celsius = qRound(temp.convertTo(KUnitConversion::Celsius).number());
+        const int celsius = qRound(kelvin - 273.15); // https://fr.wikipedia.org/wiki/Kelvin
         const int average_wind = qRound(details.value("vent_moyen").toObject().value("10m").toDouble());
         const int gust_wind = qRound(details.value("vent_rafales").toObject().value("10m").toDouble());
         const int wind_direction = details.value("vent_direction").toObject().value("10m").toInt();

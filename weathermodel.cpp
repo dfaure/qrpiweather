@@ -121,7 +121,7 @@ QString WeatherModel::backendName() const
     return m_parser->backendName();
 }
 
-QDateTime WeatherModel::currentDateTime() const
+QDateTime WeatherModel::currentDateTime()
 {
     QDateTime dt = QDateTime::currentDateTime();
     QTime time = dt.time();
@@ -138,11 +138,17 @@ int WeatherModel::indexForCurrentDateTime() const
         return entry.dateTime() >= dt;
     });
     if (it != entries.constEnd()) {
-        const int ret = std::distance(entries.constBegin(), it);
+        // -1 so that we still show the current time range rather than the next one
+        const int ret = std::distance(entries.constBegin(), it) - 1;
         qDebug() << "Scrolling to" << ret;
         return ret;
     }
     return -1;
+}
+
+QString WeatherModel::lastSuccessfulUpdate() const
+{
+    return m_lastSuccessfulUpdate.toString(QStringLiteral("dd/MM/yyyy hh:mm"));
 }
 
 void WeatherModel::slotDataAvailable(const QByteArray &data)
@@ -160,6 +166,8 @@ void WeatherModel::slotDataAvailable(const QByteArray &data)
     }
 
     emit currentDateTimeChanged();
+    m_lastSuccessfulUpdate = QDateTime::currentDateTime();
+    emit lastSuccessfulUpdateChanged();
 }
 
 void WeatherModel::slotError()

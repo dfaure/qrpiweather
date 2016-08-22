@@ -18,6 +18,7 @@
  *  Boston, MA 02110-1301, USA.
  */
 
+#include "skippingproxymodel.h"
 #include "themeimageprovider.h"
 #include "weathermodel.h"
 
@@ -44,11 +45,14 @@ int main(int argc, char **argv)
 #endif
 
     WeatherModel model;
+    SkippingProxyModel proxyModel;
+    proxyModel.setSourceModel(&model);
 
     QQuickView view;
 
     QQmlContext *context = view.engine()->rootContext();
     context->setContextProperty("myModel", &model);
+    context->setContextProperty("proxyModel", &proxyModel);
 
     ThemeImageProvider *imageProvider = new ThemeImageProvider;
     view.engine()->addImageProvider(QLatin1String("fromTheme"), imageProvider);
