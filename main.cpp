@@ -70,10 +70,8 @@ int main(int argc, char **argv)
 }
 
 /*
- * Serialisation pour garder histo au redemarrage
- * Autoscroll a date courante
- * Couleur de fond rouge si données trop vieilles
- *
- * Vue jour
+ * Quelle date/heure en bas apres un redemarrage? (si pas de réseau)
+ * Autres fournisseurs de données météo, cf magazine RPI
+ * Couleur de fond rouge si données trop vieilles -- ou autre indication perte reseau
  * Historique par mois sur le passe avec courbe temperature, vent, pluie
 */

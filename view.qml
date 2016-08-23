@@ -50,9 +50,11 @@ ListView {
         width: 200
 
         Rectangle {
+            anchors.centerIn: parent
             width: parent.width
-            height: parent.height; clip: true
-            border.color: "#8080b0"; radius: 8
+            height: parent.height
+            clip: true
+            border.color: "#8080b0"
             color: model.time < 8 || model.time > 20 ? "#AAAAAA" : "white"
 
             // Rectangle { anchors.fill: column; border.color: "blue"; }

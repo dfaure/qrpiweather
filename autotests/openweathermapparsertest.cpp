@@ -48,14 +48,14 @@ void OpenWeatherMapParserTest::parserShouldFetchDatesAndData_data()
     QTest::addColumn<QString>("expectedLast");
 
     QTest::newRow("openweathermap.json") << "openweathermap.json"
-                                         << QStringLiteral("2016-08-11 21:00:00.000 CEST, temp=18, wind=(25, 0, 0), rain=0, icon=http://openweathermap.org/img/w/01n.png, description=clear sky")
-                                         << QStringLiteral("2016-08-16 18:00:00.000 CEST, temp=25, wind=(14, 0, 0), rain=0, icon=http://openweathermap.org/img/w/01d.png, description=clear sky");
+                                         << QStringLiteral("2016-08-11 21:00:00.000 CEST, temp=18, wind=(25, 0, 0), rain=0, icon=http://openweathermap.org/img/w/01n.png, description=Clear sky")
+                                         << QStringLiteral("2016-08-16 18:00:00.000 CEST, temp=25, wind=(14, 0, 0), rain=0, icon=http://openweathermap.org/img/w/01d.png, description=Clear sky");
     QTest::newRow("openweathermap-2.json") << "openweathermap-2.json"
-                                         << QStringLiteral("2016-08-14 21:00:00.000 CEST, temp=13, wind=(5, 0, 0), rain=0, icon=http://openweathermap.org/img/w/01n.png, description=clear sky")
-                                         << QStringLiteral("2016-08-19 18:00:00.000 CEST, temp=22, wind=(28, 0, 0), rain=0, icon=http://openweathermap.org/img/w/01d.png, description=clear sky");
+                                         << QStringLiteral("2016-08-14 21:00:00.000 CEST, temp=13, wind=(5, 0, 0), rain=0, icon=http://openweathermap.org/img/w/01n.png, description=Clear sky")
+                                         << QStringLiteral("2016-08-19 18:00:00.000 CEST, temp=22, wind=(28, 0, 0), rain=0, icon=http://openweathermap.org/img/w/01d.png, description=Clear sky");
     QTest::newRow("openweathermap-3.json") << "openweathermap-3.json"
-                                         << QStringLiteral("2016-08-24 21:00:00.000 CEST, temp=13, wind=(5, 0, 0), rain=0, icon=http://openweathermap.org/img/w/01n.png, description=clear sky")
-                                         << QStringLiteral("2016-08-29 18:00:00.000 CEST, temp=22, wind=(28, 0, 0), rain=0, icon=http://openweathermap.org/img/w/01d.png, description=clear sky");
+                                         << QStringLiteral("2016-08-24 21:00:00.000 CEST, temp=13, wind=(5, 0, 0), rain=0, icon=http://openweathermap.org/img/w/01n.png, description=Clear sky")
+                                         << QStringLiteral("2016-08-29 18:00:00.000 CEST, temp=22, wind=(28, 0, 0), rain=0, icon=http://openweathermap.org/img/w/01d.png, description=Clear sky");
 }
 
 void OpenWeatherMapParserTest::parserShouldFetchDatesAndData()
@@ -104,7 +104,7 @@ void OpenWeatherMapParserTest::mergeWithExistingData()
     for (int iteration = 0; iteration < 2; ++iteration) {
         data.merge(newerVector);
         QCOMPARE(data.count(), 64);
-        QCOMPARE(data.at(0).toString(), QStringLiteral("2016-08-11 21:00:00.000 CEST, temp=18, wind=(25, 0, 0), rain=0, icon=http://openweathermap.org/img/w/01n.png, description=clear sky"));
+        QCOMPARE(data.at(0).toString(), QStringLiteral("2016-08-11 21:00:00.000 CEST, temp=18, wind=(25, 0, 0), rain=0, icon=http://openweathermap.org/img/w/01n.png, description=Clear sky"));
         QCOMPARE(data.at(data.count() - 1).toString(), newerVector.last().toString());
         // Check the time intervals are equal (none skipped, none duplicated)
         for (int i = 1; i < data.count(); ++i) {

@@ -30,8 +30,13 @@
 HttpDataProvider::HttpDataProvider(const QUrl &url, const QString &cacheFile)
     : m_qnam(new QNetworkAccessManager(this)),
       m_cacheFile(cacheFile),
-      m_url(url)
+      m_url(url),
+      m_logFile(QDir::homePath() + "/http.log")
 {
+    // TODO: one day disable this, when it's all working well
+    if (!m_logFile.open(QIODevice::WriteOnly | QIODevice::Append)) {
+        qWarning() << "Couldn't open" << m_logFile.fileName() << "for writing";
+    }
 }
 
 HttpDataProvider::~HttpDataProvider()
@@ -50,6 +55,7 @@ void HttpDataProvider::ensureDataAvailable()
 
 void HttpDataProvider::slotFinished(QNetworkReply *reply)
 {
+    m_logFile.write(QDateTime::currentDateTime().toString(Qt::ISODate).toLatin1() + '\n');
     const QByteArray data = reply->readAll();
     if (reply->error() == QNetworkReply::NoError) {
         // Write out cache
@@ -58,9 +64,12 @@ void HttpDataProvider::slotFinished(QNetworkReply *reply)
         if (file.open(QIODevice::WriteOnly)) {
             file.write(data);
         }
+        m_logFile.write(data.left(20) + "...\n");
     } else {
         qWarning() << reply->errorString();
+        m_logFile.write(reply->errorString().toLatin1() + '\n');
     }
+    m_logFile.flush();
     emit dataAvailable(data);
     reply->deleteLater();
 }

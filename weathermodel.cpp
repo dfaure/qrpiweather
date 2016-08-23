@@ -24,7 +24,9 @@ WeatherModel::WeatherModel(QObject *parent)
     setBackend(m_backend);
 
     connect(m_reloadTimer, &QTimer::timeout, this, &WeatherModel::fetchData);
-    m_reloadTimer->start(60 * 60 * 1000); // 1 hour
+    m_reloadTimer->setSingleShot(true); // first interval differs from following intervals
+    const int currentMinutes = QTime::currentTime().minute();
+    m_reloadTimer->start((61 - currentMinutes) * 60 * 1000); // update at 09:01, 10:01, 11:01 etc.
 }
 
 WeatherModel::~WeatherModel()
@@ -182,6 +184,7 @@ void WeatherModel::fetchData()
     connect(m_provider.data(), &DataProvider::dataAvailable, this, &WeatherModel::slotDataAvailable);
     connect(m_provider.data(), &DataProvider::error, this, &WeatherModel::slotError);
     m_provider->ensureDataAvailable();
+    m_reloadTimer->start(60 * 60 * 1000); // 1 hour
 }
 
 QString WeatherModel::autoSaveFileName() const

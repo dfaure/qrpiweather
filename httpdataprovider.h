@@ -22,6 +22,7 @@
 #define HttpDataProvider_H
 
 #include "dataprovider.h"
+#include <QFile>
 #include <QUrl>
 
 class QNetworkAccessManager;
@@ -43,6 +44,7 @@ private:
     QNetworkAccessManager *m_qnam;
     QString m_cacheFile;
     QUrl m_url;
+    QFile m_logFile;
 };
 
 #endif
