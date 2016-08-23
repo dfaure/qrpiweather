@@ -110,6 +110,7 @@ static QMap<QString, QString> setupDayIconMappings()
     return conditionList;
 }
 
+#if 0
 static QMap<QString, QString> setupNightIconMappings()
 {
     QMap<QString, QString> conditionList = setupCommonIconMappings();
@@ -124,6 +125,7 @@ static QMap<QString, QString> setupNightIconMappings()
 
     return conditionList;
 }
+#endif
 
 QVector<WeatherDataEntry> WetterComParser::parse(const QByteArray &data)
 {
