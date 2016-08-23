@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.12)
-project(qmeteofrance)
+project(qrpiweather)
 find_package(Qt5 CONFIG REQUIRED Core Gui Quick Network Test
     #Widgets
 )
@@ -29,8 +29,8 @@ set(sharedfiles_SRCS
    weathermodel.cpp
    wettercomparser.cpp
 )
-add_library(libqmeteofrance STATIC ${sharedfiles_SRCS})
-target_link_libraries(libqmeteofrance
+add_library(libqrpiweather STATIC ${sharedfiles_SRCS})
+target_link_libraries(libqrpiweather
    Qt5::Core
    Qt5::Gui     # QIcon
    Qt5::Network
@@ -38,14 +38,14 @@ target_link_libraries(libqmeteofrance
 
 add_subdirectory(autotests)
 
-set(qmeteofrance_SRCS
+set(qrpiweather_SRCS
    main.cpp
    themeimageprovider.cpp
-   qmeteofrance.qrc)
+   qrpiweather.qrc)
 
-add_executable(qmeteofrance ${qmeteofrance_SRCS})
-target_link_libraries(qmeteofrance
-   libqmeteofrance
+add_executable(qrpiweather ${qrpiweather_SRCS})
+target_link_libraries(qrpiweather
+   libqrpiweather
    Qt5::Core
    Qt5::Gui
    Qt5::Network
@@ -53,4 +53,4 @@ target_link_libraries(qmeteofrance
    #Qt5::Widgets
 )
 
-install(TARGETS qmeteofrance RUNTIME DESTINATION bin)
+install(TARGETS qrpiweather RUNTIME DESTINATION bin)

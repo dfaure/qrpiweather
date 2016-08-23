@@ -1,5 +1,5 @@
 SwitchQtDir /d/qt/5/kde/qtbase
 
-export OBJ_REPLACEMENT='s/qmeteofrance/qmeteofrance\/build/'
-export OBJ_REPLACEMENT_BACK='s/qmeteofrance\/build/qmeteofrance/'
+export OBJ_REPLACEMENT='s/qrpiweather/qrpiweather\/build/'
+export OBJ_REPLACEMENT_BACK='s/qrpiweather\/build/qrpiweather/'
 

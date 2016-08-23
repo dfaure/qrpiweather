@@ -1,4 +1,4 @@
-/*  This file is part of qmeteofrance
+/*  This file is part of qrpiweather
  *  Copyright 2014  David Faure  <faure@kde.org>
  *
  *  This library is free software; you can redistribute it and/or modify

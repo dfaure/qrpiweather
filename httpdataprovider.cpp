@@ -1,4 +1,4 @@
-/*  This file is part of qmeteofrance
+/*  This file is part of qrpiweather
  *  Copyright 2014  David Faure  <faure@kde.org>
  *
  *  This library is free software; you can redistribute it and/or modify
@@ -31,7 +31,7 @@ HttpDataProvider::HttpDataProvider(const QUrl &url, const QString &cacheFile)
     : m_qnam(new QNetworkAccessManager(this)),
       m_cacheFile(cacheFile),
       m_url(url),
-      m_logFile(QDir::homePath() + "/http.log")
+      m_logFile(QDir::homePath() + "/qrpiweather-http.log")
 {
     // TODO: one day disable this, when it's all working well
     if (!m_logFile.open(QIODevice::WriteOnly | QIODevice::Append)) {
@@ -64,7 +64,7 @@ void HttpDataProvider::slotFinished(QNetworkReply *reply)
         if (file.open(QIODevice::WriteOnly)) {
             file.write(data);
         }
-        m_logFile.write(data.left(20) + "...\n");
+        m_logFile.write(data.left(80) + "...\n");
     } else {
         qWarning() << reply->errorString();
         m_logFile.write(reply->errorString().toLatin1() + '\n');

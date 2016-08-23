@@ -7,7 +7,7 @@ ecm_add_tests(
     wettercomparsertest.cpp
     weatherdatatest.cpp
 LINK_LIBRARIES
-    libqmeteofrance
+    libqrpiweather
     Qt5::Core
     Qt5::Network
     Qt5::Test
