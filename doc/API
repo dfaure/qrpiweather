@@ -6,4 +6,8 @@ wget 'http://www.infoclimat.fr/public-api/gfs/json?_ll=43.9743,4.9031&_auth=BhxR
 
 
 json_pp -t dumper < rawjson > json.txt
+  (part of perl)
+
+Alternative: python -mjson.tool
+
 
